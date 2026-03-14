@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RĀI · LINGUA — Human Script Archive · Rai Candish</title>
+<!--
+  ════════════════════════════════════════════════════
+  RĀI LINGUA — HUMAN SCRIPT ARCHIVE + ORACULAR ENGINE
+  Author  : RAI CANDISH / EST: 22:08:1986
+  Site    : www.candish.me
+  GitHub  : https://isukirirai-hub.github.io/rai/
+  Embed   : <iframe src="https://isukirirai-hub.github.io/rai/"
+              width="100%" height="780" frameborder="0"
+              allow="autoplay; microphone"
+              style="border:none;display:block;background:#05040a">
+            </iframe>
+  Brave   : TTS ✓  Audio ✓  STT ✗ (privacy by design)
+  Firefox : TTS ✓  Audio ✓  STT partial
+  Chrome  : Full ✓
+  ════════════════════════════════════════════════════
+  SCRIPTS [23]: Hiragana · Katakana · Chinese · Hangul
+  Devanagari · Tamil · Sinhala · Arabic · Hebrew
+  Ge'ez · N'Ko · Greek · Cyrillic · Armenian · Georgian
+  Thai · Balinese · Tibetan · Mongolian · Hieroglyphs
+  Elder Futhark · Cherokee · IPA
+  ════════════════════════════════════════════════════
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&family=Noto+Sans:wght@400;700&family=Noto+Sans+JP&family=Noto+Sans+KR&family=Noto+Sans+SC&family=Noto+Sans+Arabic&family=Noto+Sans+Hebrew&family=Noto+Sans+Devanagari&family=Noto+Sans+Tamil&family=Noto+Sans+Thai&family=Noto+Sans+Georgian&family=Noto+Sans+Armenian&family=Noto+Serif+Ethiopic&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   PALETTE — phosphor amber on void
+   ═══════════════════════════════════════════════ */
+:root{
+  --void:    #05040a;
+  --deep:    #0c0a18;
+  --surface: #100e1e;
+  --rim:     #1e1a38;
+  --amber:   #ffb700;
+  --amber2:  #ff8c00;
+  --amber3:  #ffe066;
+  --ember:   #c8791a;
+  --gold:    #d4a843;
+  --pale:    #e8d5a0;
+  --cyan:    #00e5ff;
+  --green:   #39ff14;
+  --red:     #ff2a4a;
+  --dim:     #332e5a;
+  --muted:   #5a5280;
+  --text:    #d8ceff;
+  --white:   #f0ecff;
+  /* Font stacks */
+  --mono:    'Share Tech Mono','Courier New',monospace;
+  --serif:   'IM Fell English',Georgia,serif;
+  --display: 'Cinzel Decorative','Cinzel',serif;
+  --heading: 'Cinzel',serif;
+  --scripts: 'Noto Sans JP','Noto Sans KR','Noto Sans SC',
+             'Noto Sans Arabic','Noto Sans Hebrew',
+             'Noto Sans Devanagari','Noto Sans Tamil',
+             'Noto Sans Thai','Noto Sans Georgian',
+             'Noto Sans Armenian','Noto Serif Ethiopic',
+             'Noto Sans','Segoe UI Historic','Segoe UI Symbol',
+             'unifont',system-ui,sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:14px;}
+html,body{width:100%;height:100%;background:var(--void);color:var(--text);font-family:var(--mono);overflow:hidden;cursor:default;}
+
+/* scanlines */
+body::before{content:'';position:fixed;inset:0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%,rgba(255,183,0,0.06) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,183,0,0.012) 3px,rgba(255,183,0,0.012) 4px);
+  pointer-events:none;z-index:900;}
+
+/* ═══════════════════════════════════════════════
+   BOOT SCREEN
+   ═══════════════════════════════════════════════ */
+#BOOT{
+  position:fixed;inset:0;background:var(--void);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:5000;gap:8px;
+  animation:flickerIn 0.5s ease forwards;
+}
+@keyframes flickerIn{0%{opacity:0}8%{opacity:0.9}11%{opacity:0.1}15%{opacity:1}}
+#BOOT-TEXT{font-family:var(--mono);font-size:12px;color:var(--ember);text-align:left;
+  width:520px;max-width:92vw;line-height:2.2;text-shadow:0 0 8px var(--ember);}
+.bl{display:block;opacity:0;animation:bfade .05s forwards;}
+@keyframes bfade{to{opacity:1}}
+#BOOT-BAR-WRAP{width:520px;max-width:92vw;margin-top:18px;}
+#BOOT-BAR-LBL{font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:4px;letter-spacing:2px;}
+#BOOT-BAR-OUT{width:100%;height:4px;background:var(--dim);border:1px solid var(--muted);}
+#BOOT-BAR-IN{height:100%;width:0%;background:linear-gradient(90deg,var(--ember),var(--amber));
+  box-shadow:0 0 8px var(--ember);transition:width 0.25s ease;}
+
+/* ═══════════════════════════════════════════════
+   MASTER GRID — 3 columns
+   ═══════════════════════════════════════════════ */
+#BIOS{
+  display:grid;
+  grid-template-rows:28px 1fr 22px;
+  grid-template-columns:200px 1fr 190px;
+  height:100vh;
+  border:1px solid var(--dim);
+  opacity:0;transition:opacity 0.8s ease;
+}
+#BIOS.visible{opacity:1;}
+
+/* ═══════════════════════════════════════════════
+   POST BAR (top)
+   ═══════════════════════════════════════════════ */
+#POST{
+  grid-column:1/-1;
+  background:var(--deep);border-bottom:1px solid var(--amber);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 10px;font-size:11px;position:relative;overflow:hidden;user-select:none;
+}
+#POST::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--amber),var(--amber3),var(--amber),transparent);
+  animation:sweep 3s ease-in-out infinite;}
+@keyframes sweep{0%{transform:scaleX(0);transform-origin:left}50%{transform:scaleX(1);transform-origin:left}100%{transform:scaleX(0);transform-origin:right}}
+.post-brand{color:var(--amber);font-family:var(--display);font-size:14px;letter-spacing:1px;}
+.post-meta{color:var(--muted);font-size:10px;letter-spacing:2px;}
+.post-clock{color:var(--amber3);}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:5px;animation:blink 2s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ═══════════════════════════════════════════════
+   LEFT DRIVE BAY
+   ═══════════════════════════════════════════════ */
+#DRIVE{border-right:1px solid var(--dim);background:var(--deep);overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;}
+.drive-head{font-size:9px;letter-spacing:3px;color:var(--muted);padding:8px 10px 5px;border-bottom:1px solid var(--dim);text-transform:uppercase;position:sticky;top:0;background:var(--deep);z-index:2;}
+.disk-family{border-bottom:1px solid rgba(30,26,56,0.8);padding-bottom:4px;margin-bottom:4px;}
+.disk-fam-label{font-size:9px;color:var(--amber2);letter-spacing:2px;padding:6px 10px 2px;text-transform:uppercase;opacity:0.7;}
+.disk-entry{display:flex;align-items:center;gap:6px;padding:5px 10px;cursor:pointer;font-size:11px;color:var(--text);border-left:2px solid transparent;transition:all 0.1s;line-height:1.2;}
+.disk-entry:hover{background:rgba(255,183,0,0.06);color:var(--amber3);}
+.disk-entry.LOADED{background:rgba(255,183,0,0.1);color:var(--amber);border-left-color:var(--amber);}
+.disk-glyph{font-size:16px;width:20px;text-align:center;flex-shrink:0;font-family:var(--scripts);}
+.disk-name{flex:1;font-size:11px;}
+.disk-id{font-size:9px;color:var(--muted);}
+
+/* ═══════════════════════════════════════════════
+   MAIN TERMINAL (centre)
+   ═══════════════════════════════════════════════ */
+#TERM{background:var(--void);display:flex;flex-direction:column;overflow:hidden;}
+
+/* MODE TABS */
+#CMD{display:flex;border-bottom:1px solid var(--dim);background:var(--surface);user-select:none;flex-wrap:wrap;}
+.cmd-btn{padding:5px 11px;background:none;border:none;border-right:1px solid var(--dim);color:var(--muted);font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.cmd-btn:hover{color:var(--amber);background:rgba(255,183,0,0.05);}
+.cmd-btn.ON{color:var(--amber);border-bottom:2px solid var(--amber);background:rgba(255,183,0,0.08);}
+.cmd-btn.rai-btn{color:var(--gold);font-family:var(--heading);}
+.cmd-btn.rai-btn.ON{color:var(--amber3);border-bottom-color:var(--amber3);}
+
+/* SCREEN */
+#SCREEN{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:12px;}
+#SCREEN::-webkit-scrollbar{width:3px;}
+#SCREEN::-webkit-scrollbar-track{background:var(--void);}
+#SCREEN::-webkit-scrollbar-thumb{background:var(--dim);}
+
+/* ═══════════════════════════════════════════════
+   WIDGETS — shared
+   ═══════════════════════════════════════════════ */
+.sys-banner{border:1px solid var(--dim);padding:12px 16px;background:var(--deep);position:relative;}
+.sys-banner::before{content:attr(data-tag);position:absolute;top:-8px;left:12px;background:var(--void);padding:0 5px;font-size:9px;color:var(--cyan);letter-spacing:2px;}
+
+.script-headline{font-family:var(--display);font-size:24px;color:var(--amber);text-shadow:0 0 30px rgba(255,183,0,0.5);letter-spacing:2px;margin-bottom:4px;}
+.script-sub{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.script-fact{font-size:12px;color:var(--text);line-height:1.8;border-left:2px solid var(--amber2);padding-left:10px;margin-top:8px;}
+
+.reg-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px;margin-top:10px;}
+.reg-cell{background:var(--surface);border:1px solid var(--dim);padding:7px 9px;}
+.reg-cell-key{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.reg-cell-val{font-size:11px;color:var(--cyan);}
+
+/* CHAR GRID */
+.char-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.char-cell{display:flex;flex-direction:column;align-items:center;padding:6px 8px;border:1px solid var(--dim);cursor:pointer;min-width:48px;transition:all 0.12s;background:var(--surface);}
+.char-cell:hover{border-color:var(--amber);background:rgba(255,183,0,0.08);transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,183,0,0.2);}
+.char-cell .cc{font-size:26px;color:var(--white);line-height:1.2;font-family:var(--scripts);}
+.char-cell .cr{font-size:9px;color:var(--cyan);margin-top:2px;letter-spacing:0.5px;}
+.char-cell .cm{font-size:8px;color:var(--muted);max-width:60px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* PHRASE TABLE */
+.phrase-table{border:1px solid var(--dim);background:var(--deep);width:100%;border-collapse:collapse;}
+.phrase-table caption{font-size:9px;color:var(--cyan);letter-spacing:3px;text-align:left;padding:8px 12px 6px;text-transform:uppercase;border-bottom:1px solid var(--dim);}
+.phrase-table tr{border-bottom:1px solid rgba(30,26,56,0.8);cursor:pointer;transition:background 0.1s;}
+.phrase-table tr:last-child{border-bottom:none;}
+.phrase-table tr:hover{background:rgba(255,183,0,0.05);}
+.phrase-table td{padding:7px 12px;vertical-align:middle;}
+.td-native{font-size:20px;color:var(--white);min-width:130px;font-family:var(--scripts);}
+.td-roman{font-size:11px;color:var(--cyan);font-style:italic;min-width:110px;}
+.td-english{font-size:11px;color:var(--muted);}
+.td-say{font-size:9px;padding:3px 8px;border:1px solid var(--dim);color:var(--muted);cursor:pointer;background:none;font-family:var(--mono);transition:all 0.15s;white-space:nowrap;}
+.td-say:hover{border-color:var(--amber);color:var(--amber);}
+
+/* QUIZ */
+.quiz-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 0;}
+.quiz-glyph{font-size:72px;color:var(--white);text-shadow:0 0 40px rgba(255,183,0,0.3);cursor:pointer;transition:text-shadow 0.2s;line-height:1;font-family:var(--scripts);}
+.quiz-glyph:hover{text-shadow:0 0 60px rgba(255,183,0,0.6);}
+.quiz-hint{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.quiz-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;max-width:380px;}
+.quiz-opt{padding:9px 12px;border:1px solid var(--dim);background:var(--deep);color:var(--text);font-family:var(--mono);font-size:12px;cursor:pointer;transition:all 0.15s;text-align:center;}
+.quiz-opt:hover{border-color:var(--cyan);color:var(--cyan);}
+.quiz-opt.CORRECT{border-color:var(--green);color:var(--green);background:rgba(57,255,20,0.08);}
+.quiz-opt.WRONG{border-color:var(--red);color:var(--red);background:rgba(255,42,74,0.08);}
+.quiz-bar{width:100%;max-width:380px;display:flex;gap:12px;font-size:10px;color:var(--muted);justify-content:center;}
+.quiz-bar span{color:var(--amber3);}
+.quiz-msg{font-size:12px;padding:7px 14px;border:1px solid;animation:fadeIn 0.2s;}
+.quiz-msg.ok{border-color:var(--green);color:var(--green);background:rgba(57,255,20,0.06);}
+.quiz-msg.no{border-color:var(--red);color:var(--red);background:rgba(255,42,74,0.06);}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* DRAW MODE */
+.draw-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.draw-ghost{font-size:90px;color:rgba(255,183,0,0.08);text-align:center;line-height:1;position:relative;margin-bottom:-110px;pointer-events:none;z-index:0;font-family:var(--scripts);}
+#ink{display:block;position:relative;z-index:1;background:rgba(255,183,0,0.02);border:1px solid var(--dim);cursor:crosshair;touch-action:none;}
+.draw-meta{font-size:12px;color:var(--cyan);letter-spacing:1px;}
+.draw-btns{display:flex;gap:8px;}
+
+/* CTRL BUTTONS */
+.ctrl{padding:5px 11px;background:var(--surface);border:1px solid var(--dim);color:var(--muted);font-family:var(--mono);font-size:10px;cursor:pointer;transition:all 0.15s;letter-spacing:1px;}
+.ctrl:hover{border-color:var(--amber);color:var(--amber);background:rgba(255,183,0,0.06);}
+.ctrl.PRIME{border-color:var(--amber2);color:var(--amber2);}
+
+/* PROG */
+.prog-outer{height:3px;background:var(--dim);overflow:hidden;margin:6px 0;}
+.prog-inner{height:100%;background:linear-gradient(90deg,var(--amber2),var(--amber3));transition:width 0.5s ease;box-shadow:0 0 8px rgba(255,183,0,0.5);}
+
+/* INFO ROWS */
+.info-row{display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px dotted rgba(30,26,56,0.9);}
+.info-row:last-child{border:none;}
+.ik{color:var(--muted);}
+.iv{color:var(--cyan);text-align:right;}
+.stat-big{font-size:30px;color:var(--amber);text-shadow:0 0 20px rgba(255,183,0,0.4);font-weight:700;line-height:1;}
+.stat-label{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+.score-row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+
+/* ═══════════════════════════════════════════════
+   RĀI CHAT MODE
+   ═══════════════════════════════════════════════ */
+#rai-screen{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:0;display:none;}
+#rai-screen::-webkit-scrollbar{width:3px;}
+#rai-screen::-webkit-scrollbar-thumb{background:var(--dim);}
+
+.rai-msg{margin:20px 0;max-width:600px;margin-left:auto;margin-right:auto;width:100%;}
+.rai-name{font-family:var(--heading);font-size:10px;color:var(--ember);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:8px;}
+.rai-name::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--dim),transparent);}
+.rai-text{font-family:var(--serif);font-size:clamp(13px,2vw,16px);color:var(--pale);line-height:1.95;font-style:italic;}
+
+.user-msg{margin:16px 0;max-width:600px;margin-left:auto;margin-right:auto;width:100%;text-align:right;}
+.user-name{font-family:var(--heading);font-size:10px;color:var(--muted);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px;justify-content:flex-end;}
+.user-name::before{content:'';flex:1;height:1px;background:linear-gradient(270deg,var(--dim),transparent);}
+.user-text{font-family:var(--serif);font-size:clamp(12px,1.8vw,15px);color:var(--muted);line-height:1.8;}
+
+.choice-wrap{max-width:600px;margin:24px auto;display:flex;flex-direction:column;gap:8px;width:100%;}
+.choice-btn{font-family:var(--heading);font-size:12px;color:var(--text);background:rgba(255,183,0,0.03);border:1px solid var(--dim);padding:12px 20px;text-align:left;cursor:pointer;letter-spacing:0.1em;transition:all 0.25s;position:relative;overflow:hidden;}
+.choice-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--ember);transform:scaleY(0);transition:transform 0.25s;transform-origin:bottom;}
+.choice-btn:hover{background:rgba(255,183,0,0.07);border-color:var(--muted);color:var(--amber3);padding-left:26px;}
+.choice-btn:hover::before{transform:scaleY(1);}
+
+.typing-ind{display:flex;gap:5px;padding:14px 0;max-width:600px;margin:0 auto;width:100%;}
+.typing-dot{width:5px;height:5px;background:var(--ember);border-radius:50%;animation:typeBounce 1.2s ease-in-out infinite;box-shadow:0 0 5px var(--ember);}
+.typing-dot:nth-child(2){animation-delay:0.2s;}
+.typing-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes typeBounce{0%,100%{transform:translateY(0);opacity:0.4}50%{transform:translateY(-5px);opacity:1}}
+
+/* RAI INPUT BAR */
+#rai-input-bar{border-top:1px solid var(--dim);background:linear-gradient(to top,rgba(5,4,10,0.97),transparent);padding:10px 16px;display:none;gap:8px;align-items:flex-end;}
+#rai-input{flex:1;background:rgba(255,255,255,0.02);border:1px solid var(--dim);border-bottom:1px solid var(--muted);color:var(--pale);font-family:var(--serif);font-size:14px;font-style:italic;padding:10px 13px;resize:none;outline:none;min-height:42px;max-height:100px;transition:border-color 0.3s;}
+#rai-input:focus{border-color:var(--amber);}
+#rai-input::placeholder{color:var(--muted);opacity:0.5;}
+.rai-send-btn{font-family:var(--heading);font-size:10px;letter-spacing:0.15em;color:var(--void);background:linear-gradient(135deg,var(--ember),var(--amber));border:none;padding:10px 16px;cursor:pointer;text-transform:uppercase;transition:all 0.3s;box-shadow:0 0 10px rgba(200,121,26,0.3);white-space:nowrap;}
+.rai-send-btn:hover{box-shadow:0 0 18px rgba(255,183,0,0.5);}
+#rai-mic-btn{background:var(--surface);color:var(--muted);border:1px solid var(--dim);font-size:14px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;flex-shrink:0;}
+#rai-mic-btn.active{background:rgba(200,121,26,0.15);border-color:var(--ember);color:var(--ember);}
+
+/* ═══════════════════════════════════════════════
+   RIGHT REGISTER
+   ═══════════════════════════════════════════════ */
+#REG{border-left:1px solid var(--dim);background:var(--deep);overflow-y:auto;display:flex;flex-direction:column;}
+#REG::-webkit-scrollbar{width:3px;}
+#REG::-webkit-scrollbar-thumb{background:var(--dim);}
+.reg-block{padding:12px;border-bottom:1px solid var(--dim);}
+.reg-head{font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;}
+.reg-glyph{font-size:28px;color:var(--amber);text-align:center;text-shadow:0 0 20px rgba(255,183,0,0.5);letter-spacing:6px;padding:6px;font-family:var(--scripts);animation:glowAm 3s ease-in-out infinite;}
+@keyframes glowAm{0%,100%{text-shadow:0 0 20px rgba(255,183,0,0.4)}50%{text-shadow:0 0 50px rgba(255,183,0,0.8),0 0 80px rgba(255,183,0,0.3)}}
+.reg-fact{font-size:11px;color:var(--text);line-height:1.8;margin-top:6px;font-family:var(--serif);font-style:italic;}
+
+/* RĀI register section */
+.rai-reg{padding:12px;border-bottom:1px solid var(--dim);}
+.rai-reg-title{font-family:var(--display);font-size:12px;color:var(--gold);text-shadow:0 0 12px rgba(212,168,67,0.4);letter-spacing:0.15em;text-align:center;margin-bottom:6px;animation:titlePulse 4s ease-in-out infinite;}
+@keyframes titlePulse{0%,100%{text-shadow:0 0 12px rgba(212,168,67,0.3)}50%{text-shadow:0 0 24px rgba(212,168,67,0.7)}}
+.rai-canvas-wrap{display:flex;justify-content:center;margin:6px 0;}
+#rai-face{image-rendering:pixelated;}
+
+/* ═══════════════════════════════════════════════
+   STATUS LINE
+   ═══════════════════════════════════════════════ */
+#STATUSLINE{grid-column:1/-1;background:var(--surface);border-top:1px solid var(--dim);display:flex;align-items:center;gap:14px;padding:0 10px;font-size:9px;color:var(--muted);letter-spacing:1px;user-select:none;}
+.sl-sep{color:var(--dim);}
+.sl-v{color:var(--amber3);}
+.sl-r{margin-left:auto;color:var(--muted);}
+
+/* TOOLTIP */
+.tt{position:fixed;background:var(--surface);border:1px solid var(--amber);color:var(--text);font-size:11px;padding:6px 10px;pointer-events:none;z-index:9999;display:none;max-width:180px;line-height:1.5;box-shadow:0 4px 16px rgba(0,0,0,0.8);font-family:var(--mono);}
+
+/* BOOT WELCOME */
+.boot-ascii{font-size:10px;color:var(--amber2);line-height:1.6;opacity:0.6;white-space:pre;overflow-x:auto;}
+.boot-tagline{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.8;font-family:var(--serif);font-style:italic;}
+.boot-tagline span{color:var(--amber3);}
+
+/* RESPONSIVE */
+@media(max-width:800px){#BIOS{grid-template-columns:160px 1fr;}#REG{display:none;}}
+@media(max-width:560px){
+  #BIOS{grid-template-columns:1fr;grid-template-rows:28px auto 1fr 22px;}
+  #DRIVE{max-height:88px;flex-direction:row;overflow-x:auto;overflow-y:hidden;border-right:none;border-bottom:1px solid var(--dim);}
+  .disk-family{display:flex;border:none;padding:0;}
+  .disk-fam-label{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- BOOT SCREEN -->
+<div id="BOOT">
+  <div id="BOOT-TEXT"></div>
+  <div id="BOOT-BAR-WRAP">
+    <div id="BOOT-BAR-LBL">INITIALISING · LINGUA ANIMA MUNDI</div>
+    <div id="BOOT-BAR-OUT"><div id="BOOT-BAR-IN"></div></div>
+  </div>
+</div>
+
+<!-- MAIN BIOS LAYOUT -->
+<div id="BIOS">
+
+  <!-- POST BAR -->
+  <div id="POST">
+    <div class="post-brand">RĀI · Lingua</div>
+    <div class="post-meta"><span class="dot"></span>HUMAN SCRIPT ARCHIVE · 23 SCRIPTS · RAI CANDISH EST:22:08:1986</div>
+    <div class="post-clock" id="CLK">--:--:--</div>
+  </div>
+
+  <!-- LEFT DRIVE BAY -->
+  <div id="DRIVE">
+    <div class="drive-head">▸ Script Index</div>
+    <div id="DISKLIST"></div>
+  </div>
+
+  <!-- CENTRE TERMINAL -->
+  <div id="TERM">
+    <div id="CMD">
+      <button class="cmd-btn rai-btn ON" data-mode="rai">[ RĀI ]</button>
+      <button class="cmd-btn" data-mode="script">[ Script ]</button>
+      <button class="cmd-btn" data-mode="phrases">[ Phrases ]</button>
+      <button class="cmd-btn" data-mode="quiz">[ Quiz ]</button>
+      <button class="cmd-btn" data-mode="write">[ Write ]</button>
+      <button class="cmd-btn" data-mode="numbers">[ Numbers ]</button>
+    </div>
+
+    <!-- LINGUA SCREEN (all non-RĀI modes) -->
+    <div id="SCREEN">
+      <div class="sys-banner" data-tag="LINGUA BOOT — SELECT A SCRIPT TO BEGIN">
+        <div class="script-headline">Human Script Archive</div>
+        <div class="script-sub">23 scripts · living data · zero cloud · Rai Candish 2026</div>
+        <pre class="boot-ascii">
+ ██╗     ██╗███╗   ██╗ ██████╗ ██╗   ██╗ █████╗
+ ██║     ██║████╗  ██║██╔════╝ ██║   ██║██╔══██╗
+ ██║     ██║██╔██╗ ██║██║  ███╗██║   ██║███████║
+ ██║     ██║██║╚██╗██║██║   ██║██║   ██║██╔══██║
+ ███████╗██║██║ ╚████║╚██████╔╝╚██████╔╝██║  ██║
+ ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝</pre>
+        <div class="boot-tagline">
+          Alphabets · Abjads · Abugidas · Syllabaries · Logographies · Runes · Extinct Scripts<br><br>
+          <span>← Select any script from the index · Switch to [ RĀI ] to speak with the archive oracle.</span><br>
+          No AI servers. No cloud. One file. Boots anywhere.
+        </div>
+      </div>
+    </div>
+
+    <!-- RĀI CHAT SCREEN -->
+    <div id="rai-screen"></div>
+
+    <!-- RĀI INPUT BAR -->
+    <div id="rai-input-bar">
+      <button id="rai-mic-btn" onclick="toggleMic()" title="Mic (Chrome/HTTPS only)">◎</button>
+      <textarea id="rai-input" placeholder="Speak your intent, Seeker…" rows="1"
+        onkeydown="raiKey(event)" oninput="raiResize(this)"></textarea>
+      <button class="rai-send-btn" onclick="raiSend()">Offer</button>
+    </div>
+  </div>
+
+  <!-- RIGHT REGISTER -->
+  <div id="REG">
+    <!-- RĀI face section -->
+    <div class="rai-reg">
+      <div class="rai-reg-title">R Ā I</div>
+      <div class="rai-canvas-wrap"><canvas id="rai-face" width="160" height="160"></canvas></div>
+    </div>
+    <!-- Script info -->
+    <div class="reg-block">
+      <div class="reg-head">● Active Script</div>
+      <div class="reg-glyph" id="RG-GLYPH">—</div>
+    </div>
+    <div class="reg-block">
+      <div class="reg-head">● Script Registers</div>
+      <div class="info-row"><span class="ik">TYPE</span><span class="iv" id="ri-type">—</span></div>
+      <div class="info-row"><span class="ik">DIR</span><span class="iv" id="ri-dir">—</span></div>
+      <div class="info-row"><span class="ik">SPEAKERS</span><span class="iv" id="ri-sp">—</span></div>
+      <div class="info-row"><span class="ik">FAMILY</span><span class="iv" id="ri-fam">—</span></div>
+      <div class="info-row"><span class="ik">REGION</span><span class="iv" id="ri-reg">—</span></div>
+      <div class="info-row"><span class="ik">CHARS</span><span class="iv" id="ri-ch">—</span></div>
+    </div>
+    <div class="reg-block">
+      <div class="reg-head">● Session</div>
+      <div class="stat-big" id="S-SEEN">0</div>
+      <div class="stat-label">chars seen</div>
+      <div class="prog-outer"><div class="prog-inner" id="S-PROG" style="width:0%"></div></div>
+      <div class="score-row">
+        <div><div class="stat-big" style="font-size:20px;color:var(--green)" id="S-OK">0</div><div class="stat-label">correct</div></div>
+        <div><div class="stat-big" style="font-size:20px;color:var(--red)" id="S-NO">0</div><div class="stat-label">missed</div></div>
+        <div><div class="stat-big" style="font-size:20px;color:var(--amber3)" id="S-SK">0</div><div class="stat-label">streak</div></div>
+      </div>
+    </div>
+    <div class="reg-block">
+      <div class="reg-head">● Linguist's Note</div>
+      <div class="reg-fact" id="RG-FACT">Select a script to read its history — or speak with RĀI.</div>
+    </div>
+  </div>
+
+  <!-- STATUS LINE -->
+  <div id="STATUSLINE">
+    <span class="dot"></span><span>LIVE</span>
+    <span class="sl-sep">│</span>
+    <span>MODE: <span class="sl-v" id="SL-MODE">RĀI</span></span>
+    <span class="sl-sep">│</span>
+    <span>LANG: <span class="sl-v" id="SL-LANG">—</span></span>
+    <span class="sl-sep">│</span>
+    <span>✓ <span class="sl-v" id="SL-OK">0</span> &nbsp;✗ <span class="sl-v" id="SL-NO">0</span></span>
+    <span class="sl-r">RAI CANDISH · candish.me</span>
+  </div>
+
+</div><!-- /BIOS -->
+
+<div class="tt" id="TT"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     THE SCRIPT
+     ═══════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── UTILS ─────────────────────────────────────────── */
+const $   = id => document.getElementById(id);
+const el  = (t,c) => { const e=document.createElement(t); if(c)e.className=c; return e; };
+const esc = s  => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a; };
+
+/* ── CLOCK ─────────────────────────────────────────── */
+const tick=()=>$('CLK').textContent=new Date().toLocaleTimeString();
+tick(); setInterval(tick,1000);
+
+/* ── SESSION STATE ─────────────────────────────────── */
+const S={
+  lang:null, mode:'rai',
+  seen:new Set(), ok:0, no:0, streak:0,
+  seekerName:'', seekerType:'', phase:'boot',
+  voices:[], voicesReady:false,
+  micActive:false, recognition:null,
+  audioCtx:null, audioReady:false,
+};
+
+function updateStats(total){
+  $('S-SEEN').textContent=S.seen.size;
+  $('S-OK').textContent=S.ok; $('SL-OK').textContent=S.ok;
+  $('S-NO').textContent=S.no; $('SL-NO').textContent=S.no;
+  $('S-SK').textContent=S.streak;
+  if(total) $('S-PROG').style.width=Math.min(100,S.seen.size/total*100)+'%';
+}
+
+/* ── AUDIO — lazy init on first gesture ────────────── */
+function ensureAudio(){
+  if(S.audioReady) return;
+  try{
+    S.audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    S.audioReady=true;
+  }catch(e){}
+}
+
+function playTone(freq,type='sine',dur=0.3,vol=0.12,delay=0){
+  if(!S.audioReady||!S.audioCtx) return;
+  try{
+    const ctx=S.audioCtx,osc=ctx.createOscillator(),gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.type=type;osc.frequency.setValueAtTime(freq,ctx.currentTime+delay);
+    gain.gain.setValueAtTime(0,ctx.currentTime+delay);
+    gain.gain.linearRampToValueAtTime(vol,ctx.currentTime+delay+0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay+dur);
+    osc.start(ctx.currentTime+delay);
+    osc.stop(ctx.currentTime+delay+dur+0.05);
+  }catch(e){}
+}
+function playChord(notes,type='triangle',dur=0.9){notes.forEach((f,i)=>playTone(f,type,dur,0.07,i*0.06));}
+function playBoot(){[110,150,185,220,277,330].forEach((f,i)=>setTimeout(()=>playTone(f,'square',0.1,0.1),i*150));setTimeout(()=>playChord([220,277,330,440],'triangle',1.4),1100);}
+function playReveal(){playChord([174,220,261,349],'sine',2);}
+function playSelect(){playTone(330,'triangle',0.12,0.06);}
+function playResponse(){playChord([261,329,392],'triangle',0.5);}
+function playThink(){playTone(174,'sine',0.1,0.04);}
+function playClick(){playTone(440,'triangle',0.1,0.06);}
+
+/* ── TTS — cross-browser voice loader ──────────────── */
+function loadVoices(){
+  return new Promise(resolve=>{
+    if(!window.speechSynthesis){resolve([]);return;}
+    const v=speechSynthesis.getVoices();
+    if(v.length){S.voices=v;S.voicesReady=true;resolve(v);return;}
+    speechSynthesis.onvoiceschanged=()=>{S.voices=speechSynthesis.getVoices();S.voicesReady=true;resolve(S.voices);};
+    // polling fallback (Safari)
+    let n=0;
+    const poll=setInterval(()=>{
+      const vv=speechSynthesis.getVoices();
+      if(vv.length||n++>12){clearInterval(poll);S.voices=vv;S.voicesReady=true;resolve(vv);}
+    },250);
+  });
+}
+
+/* lang codes per script id */
+const LANG_CODES={hiragana:'ja-JP',katakana:'ja-JP',chinese:'zh-CN',korean:'ko-KR',devanagari:'hi-IN',tamil:'ta-IN',sinhala:'si-LK',arabic:'ar-SA',hebrew:'he-IL',geez:'am-ET',nko:'fr-FR',greek:'el-GR',cyrillic:'ru-RU',armenian:'hy-AM',georgian:'ka-GE',thai:'th-TH',balinese:'id-ID',tibetan:'bo',mongolian:'mn-MN',hieroglyphs:'en-GB',futhark:'en-GB',cherokee:'chr',ipa:'en-GB'};
+
+function pickVoice(code){
+  if(!S.voices.length)return null;
+  return S.voices.find(v=>v.lang===code)||S.voices.find(v=>v.lang.startsWith(code.split('-')[0]))||null;
+}
+
+function say(text,langId){
+  if(!window.speechSynthesis||!text)return;
+  speechSynthesis.cancel();
+  const utt=new SpeechSynthesisUtterance(text);
+  utt.rate=0.85; utt.pitch=langId?1:0.88; utt.volume=0.8;
+  if(langId){
+    const code=LANG_CODES[langId]||'en-GB';
+    const v=pickVoice(code)||pickVoice('en');
+    if(v)utt.voice=v; utt.lang=code;
+  }else{
+    // RĀI voice — prefer female
+    const f=S.voices.find(v=>/samantha|victoria|karen|serena|moira|fiona|joanna|salli|kendra|kimberly|ivy|kate|susan/i.test(v.name));
+    if(f)utt.voice=f; utt.lang='en-GB';
+  }
+  speechSynthesis.speak(utt);
+}
+
+/* ── TOOLTIP ────────────────────────────────────────── */
+const TT=$('TT');
+function showTT(e,t){TT.textContent=t;TT.style.display='block';mvTT(e);}
+function hideTT(){TT.style.display='none';}
+function mvTT(e){TT.style.left=(e.clientX+14)+'px';TT.style.top=(e.clientY-18)+'px';}
+document.addEventListener('mousemove',e=>{if(TT.style.display!=='none')mvTT(e);});
+
+/* ═══════════════════════════════════════════════════
+   THE ROM — 23 SCRIPTS
+   ═══════════════════════════════════════════════════ */
+const ROM=[
+
+{family:'East Asian',id:'hiragana',name:'Hiragana',native:'ひらがな',
+speakers:'125M',type:'Syllabary',dir:'LTR',region:'Japan',chars_count:'46 base',
+sample:'あいうえお',
+fun_fact:'Hiragana was developed by women at the Heian court in 9th-century Japan. "Hiragana" means ordinary/flowing kana. Each symbol is a mora — one consonant + one vowel, inseparable.',
+keywords:['hiragana','japanese','japan','nihongo','kana','manga','anime'],
+alphabet:[
+  {c:'あ',r:'a',m:'vowel'},{c:'い',r:'i',m:'vowel'},{c:'う',r:'u',m:'vowel'},{c:'え',r:'e',m:'vowel'},{c:'お',r:'o',m:'vowel'},
+  {c:'か',r:'ka'},{c:'き',r:'ki'},{c:'く',r:'ku'},{c:'け',r:'ke'},{c:'こ',r:'ko'},
+  {c:'さ',r:'sa'},{c:'し',r:'shi'},{c:'す',r:'su'},{c:'せ',r:'se'},{c:'そ',r:'so'},
+  {c:'た',r:'ta'},{c:'ち',r:'chi'},{c:'つ',r:'tsu'},{c:'て',r:'te'},{c:'と',r:'to'},
+  {c:'な',r:'na',m:'name'},{c:'に',r:'ni',m:'two'},{c:'ぬ',r:'nu'},{c:'ね',r:'ne',m:'root'},{c:'の',r:'no',m:'of'},
+  {c:'は',r:'ha',m:'teeth'},{c:'ひ',r:'hi',m:'fire'},{c:'ふ',r:'fu'},{c:'へ',r:'he'},{c:'ほ',r:'ho',m:'ear'},
+  {c:'ま',r:'ma',m:'truth'},{c:'み',r:'mi',m:'see'},{c:'む',r:'mu'},{c:'め',r:'me',m:'eye'},{c:'も',r:'mo',m:'also'},
+  {c:'や',r:'ya'},{c:'ゆ',r:'yu'},{c:'よ',r:'yo',m:'good'},
+  {c:'ら',r:'ra'},{c:'り',r:'ri'},{c:'る',r:'ru'},{c:'れ',r:'re'},{c:'ろ',r:'ro'},
+  {c:'わ',r:'wa'},{c:'を',r:'wo',m:'obj.marker'},{c:'ん',r:'n',m:'nasal'},
+],
+phrases:[
+  {n:'こんにちは',r:'konnichiwa',e:'Hello / Good day'},
+  {n:'ありがとう',r:'arigatou',e:'Thank you'},
+  {n:'はい',r:'hai',e:'Yes'},{n:'いいえ',r:'iie',e:'No'},
+  {n:'おはようございます',r:'ohayou gozaimasu',e:'Good morning'},
+  {n:'さようなら',r:'sayounara',e:'Goodbye'},
+  {n:'わかりません',r:'wakarimasen',e:"I don't understand"},
+  {n:'お願いします',r:'onegaishimasu',e:'Please'},
+],
+nums:[{n:'いち',r:'ichi',e:'1'},{n:'に',r:'ni',e:'2'},{n:'さん',r:'san',e:'3'},{n:'よん',r:'yon',e:'4'},{n:'ご',r:'go',e:'5'},{n:'ろく',r:'roku',e:'6'},{n:'なな',r:'nana',e:'7'},{n:'はち',r:'hachi',e:'8'},{n:'きゅう',r:'kyuu',e:'9'},{n:'じゅう',r:'juu',e:'10'},{n:'ひゃく',r:'hyaku',e:'100'},{n:'せん',r:'sen',e:'1000'}],
+},
+
+{family:'East Asian',id:'katakana',name:'Katakana',native:'カタカナ',
+speakers:'125M',type:'Syllabary',dir:'LTR',region:'Japan',chars_count:'46 base',
+sample:'アイウエオ',
+fun_fact:'Katakana was created by Buddhist monks in the 9th century as shorthand for Sanskrit texts. Today it marks foreign loanwords and emphasis — the italics of Japanese.',
+keywords:['katakana','loanword','japanese'],
+alphabet:[
+  {c:'ア',r:'a'},{c:'イ',r:'i'},{c:'ウ',r:'u'},{c:'エ',r:'e'},{c:'オ',r:'o'},
+  {c:'カ',r:'ka'},{c:'キ',r:'ki'},{c:'ク',r:'ku'},{c:'ケ',r:'ke'},{c:'コ',r:'ko'},
+  {c:'サ',r:'sa'},{c:'シ',r:'shi'},{c:'ス',r:'su'},{c:'セ',r:'se'},{c:'ソ',r:'so'},
+  {c:'タ',r:'ta'},{c:'チ',r:'chi'},{c:'ツ',r:'tsu'},{c:'テ',r:'te'},{c:'ト',r:'to'},
+  {c:'ナ',r:'na'},{c:'ニ',r:'ni'},{c:'ヌ',r:'nu'},{c:'ネ',r:'ne'},{c:'ノ',r:'no'},
+  {c:'ハ',r:'ha'},{c:'ヒ',r:'hi'},{c:'フ',r:'fu'},{c:'ヘ',r:'he'},{c:'ホ',r:'ho'},
+  {c:'マ',r:'ma'},{c:'ミ',r:'mi'},{c:'ム',r:'mu'},{c:'メ',r:'me'},{c:'モ',r:'mo'},
+  {c:'ヤ',r:'ya'},{c:'ユ',r:'yu'},{c:'ヨ',r:'yo'},
+  {c:'ラ',r:'ra'},{c:'リ',r:'ri'},{c:'ル',r:'ru'},{c:'レ',r:'re'},{c:'ロ',r:'ro'},
+  {c:'ワ',r:'wa'},{c:'ヲ',r:'wo',m:'object'},{c:'ン',r:'n',m:'nasal'},
+],
+phrases:[
+  {n:'コーヒー',r:'koohii',e:'Coffee (loanword)'},
+  {n:'テレビ',r:'terebi',e:'Television'},
+  {n:'インターネット',r:'intaanetto',e:'Internet'},
+  {n:'アイスクリーム',r:'aisukuriimu',e:'Ice cream'},
+  {n:'コンピューター',r:'konpyuutaa',e:'Computer'},
+],
+nums:[{n:'イチ',r:'ichi',e:'1'},{n:'ニ',r:'ni',e:'2'},{n:'サン',r:'san',e:'3'},{n:'シ',r:'shi',e:'4'},{n:'ゴ',r:'go',e:'5'}],
+},
+
+{family:'East Asian',id:'chinese',name:'Chinese (Hànzì)',native:'中文',
+speakers:'1.1B',type:'Logography',dir:'LTR / TTB',region:'East Asia',chars_count:'50,000+',
+sample:'水火山日月',
+fun_fact:'Chinese characters are over 3,500 years old — the only ancient pictographic script still in everyday use. The character 森 (forest) is three 木 (tree) stacked. A literate adult knows ~5,000.',
+keywords:['chinese','mandarin','china','hanzi','cjk','tao','dao','道'],
+alphabet:[
+  {c:'日',r:'rì',m:'sun/day'},{c:'月',r:'yuè',m:'moon'},{c:'山',r:'shān',m:'mountain'},{c:'水',r:'shuǐ',m:'water'},{c:'火',r:'huǒ',m:'fire'},
+  {c:'木',r:'mù',m:'tree/wood'},{c:'土',r:'tǔ',m:'earth'},{c:'金',r:'jīn',m:'metal/gold'},{c:'人',r:'rén',m:'person'},{c:'口',r:'kǒu',m:'mouth'},
+  {c:'大',r:'dà',m:'big'},{c:'小',r:'xiǎo',m:'small'},{c:'中',r:'zhōng',m:'middle'},{c:'上',r:'shàng',m:'above'},{c:'下',r:'xià',m:'below'},
+  {c:'手',r:'shǒu',m:'hand'},{c:'心',r:'xīn',m:'heart/mind'},{c:'目',r:'mù',m:'eye'},{c:'耳',r:'ěr',m:'ear'},{c:'门',r:'mén',m:'door/gate'},
+  {c:'天',r:'tiān',m:'sky/heaven'},{c:'地',r:'dì',m:'earth/ground'},{c:'国',r:'guó',m:'country'},{c:'道',r:'dào',m:'way/Tao'},
+  {c:'风',r:'fēng',m:'wind'},{c:'雨',r:'yǔ',m:'rain'},{c:'云',r:'yún',m:'cloud'},{c:'石',r:'shí',m:'stone'},{c:'鱼',r:'yú',m:'fish'},
+],
+phrases:[
+  {n:'你好',r:'nǐ hǎo',e:'Hello'},{n:'谢谢',r:'xiè xiè',e:'Thank you'},
+  {n:'对不起',r:'duì bu qǐ',e:"I'm sorry"},{n:'再见',r:'zài jiàn',e:'Goodbye'},
+  {n:'我不懂',r:'wǒ bù dǒng',e:"I don't understand"},{n:'请',r:'qǐng',e:'Please'},
+],
+nums:[{n:'一',r:'yī',e:'1'},{n:'二',r:'èr',e:'2'},{n:'三',r:'sān',e:'3'},{n:'四',r:'sì',e:'4'},{n:'五',r:'wǔ',e:'5'},{n:'六',r:'liù',e:'6'},{n:'七',r:'qī',e:'7'},{n:'八',r:'bā',e:'8'},{n:'九',r:'jiǔ',e:'9'},{n:'十',r:'shí',e:'10'},{n:'百',r:'bǎi',e:'100'},{n:'千',r:'qiān',e:'1000'}],
+},
+
+{family:'East Asian',id:'korean',name:'Korean (Hangul)',native:'한국어',
+speakers:'77M',type:'Featural alphabet',dir:'LTR',region:'Korea',chars_count:'24 jamo',
+sample:'가나다라마',
+fun_fact:'Hangul was invented in 1443 by King Sejong the Great. The only script whose exact inventor, date, and design philosophy are all known. Consonant shapes mirror tongue position in the mouth.',
+keywords:['korean','hangul','korea','sejong','kpop'],
+alphabet:[
+  {c:'ㄱ',r:'g/k',m:'velar stop'},{c:'ㄴ',r:'n',m:'nasal'},{c:'ㄷ',r:'d/t',m:'alveolar'},{c:'ㄹ',r:'r/l',m:'liquid'},{c:'ㅁ',r:'m',m:'bilabial'},
+  {c:'ㅂ',r:'b/p',m:'bilabial'},{c:'ㅅ',r:'s',m:'sibilant'},{c:'ㅇ',r:'ŋ/—',m:'null onset'},{c:'ㅈ',r:'j',m:'affricate'},{c:'ㅎ',r:'h',m:'aspirate'},
+  {c:'ㅏ',r:'a',m:'vowel'},{c:'ㅓ',r:'eo',m:'vowel'},{c:'ㅗ',r:'o',m:'vowel'},{c:'ㅜ',r:'u',m:'vowel'},{c:'ㅡ',r:'eu',m:'vowel'},
+  {c:'ㅣ',r:'i',m:'vowel'},{c:'ㅐ',r:'ae',m:'vowel'},{c:'ㅔ',r:'e',m:'vowel'},
+  {c:'가',r:'ga',m:'syllable'},{c:'나',r:'na',m:'syllable'},{c:'다',r:'da',m:'syllable'},{c:'라',r:'ra',m:'syllable'},{c:'마',r:'ma',m:'syllable'},
+],
+phrases:[
+  {n:'안녕하세요',r:'annyeonghaseyo',e:'Hello (formal)'},{n:'감사합니다',r:'gamsahamnida',e:'Thank you (formal)'},
+  {n:'네',r:'ne',e:'Yes'},{n:'아니요',r:'aniyo',e:'No'},
+  {n:'미안합니다',r:'mianhamnida',e:"I'm sorry"},{n:'안녕히 가세요',r:'annyeonghi gaseyo',e:'Goodbye'},
+],
+nums:[{n:'일',r:'il',e:'1'},{n:'이',r:'i',e:'2'},{n:'삼',r:'sam',e:'3'},{n:'사',r:'sa',e:'4'},{n:'오',r:'o',e:'5'},{n:'육',r:'yuk',e:'6'},{n:'칠',r:'chil',e:'7'},{n:'팔',r:'pal',e:'8'},{n:'구',r:'gu',e:'9'},{n:'십',r:'sip',e:'10'}],
+},
+
+{family:'South Asian',id:'devanagari',name:'Devanāgarī',native:'देवनागरी',
+speakers:'600M+',type:'Abugida',dir:'LTR',region:'South Asia',chars_count:'47+',
+sample:'अआइईउ',
+fun_fact:'Devanāgarī — "city script of the gods" — uses a horizontal top-bar linking each word into a single stroke. It encodes Hindi, Sanskrit, Marathi, Nepali and ~120 other languages.',
+keywords:['hindi','sanskrit','devanagari','india','namaste','yoga','vedic','nepal'],
+alphabet:[
+  {c:'अ',r:'a',m:'vowel'},{c:'आ',r:'ā',m:'long a'},{c:'इ',r:'i',m:'vowel'},{c:'ई',r:'ī',m:'long i'},{c:'उ',r:'u',m:'vowel'},
+  {c:'ऊ',r:'ū',m:'long u'},{c:'ए',r:'e',m:'vowel'},{c:'ऐ',r:'ai',m:'diphthong'},{c:'ओ',r:'o',m:'vowel'},{c:'औ',r:'au',m:'diphthong'},
+  {c:'क',r:'ka',m:'velar'},{c:'ख',r:'kha',m:'aspirated'},{c:'ग',r:'ga',m:'voiced'},{c:'घ',r:'gha',m:'murmured'},{c:'ङ',r:'ṅa',m:'nasal'},
+  {c:'च',r:'ca',m:'palatal'},{c:'ज',r:'ja',m:'voiced'},{c:'त',r:'ta',m:'dental'},{c:'द',r:'da',m:'dental voiced'},{c:'न',r:'na',m:'nasal'},
+  {c:'प',r:'pa',m:'bilabial'},{c:'ब',r:'ba',m:'voiced'},{c:'म',r:'ma',m:'nasal'},{c:'य',r:'ya',m:'palatal'},{c:'र',r:'ra',m:'rhotic'},
+  {c:'ल',r:'la',m:'lateral'},{c:'व',r:'va',m:'labiodental'},{c:'श',r:'śa',m:'palatal sibilant'},{c:'स',r:'sa',m:'sibilant'},{c:'ह',r:'ha',m:'glottal'},
+],
+phrases:[
+  {n:'नमस्ते',r:'namaste',e:'Hello / I bow to you'},{n:'धन्यवाद',r:'dhanyavāda',e:'Thank you'},
+  {n:'हाँ',r:'hāṃ',e:'Yes'},{n:'नहीं',r:'nahīṃ',e:'No'},
+  {n:'कृपया',r:'kṛpayā',e:'Please'},{n:'मुझे नहीं पता',r:'mujhe nahīṃ patā',e:"I don't know"},
+],
+nums:[{n:'एक',r:'ek',e:'1'},{n:'दो',r:'do',e:'2'},{n:'तीन',r:'tīn',e:'3'},{n:'चार',r:'cār',e:'4'},{n:'पाँच',r:'pāṃc',e:'5'},{n:'छह',r:'chah',e:'6'},{n:'सात',r:'sāt',e:'7'},{n:'आठ',r:'āṭh',e:'8'},{n:'नौ',r:'nau',e:'9'},{n:'दस',r:'das',e:'10'},{n:'सौ',r:'sau',e:'100'}],
+},
+
+{family:'South Asian',id:'tamil',name:'Tamil',native:'தமிழ்',
+speakers:'77M',type:'Abugida',dir:'LTR',region:'South India / Sri Lanka',chars_count:'247',
+sample:'அஆஇஈஉ',
+fun_fact:"Tamil is one of the world's oldest surviving writing systems, inscriptions from ~300 BCE. The Sangam corpus — ancient love and war poetry — is among humanity's oldest surviving literary traditions.",
+keywords:['tamil','south india','sri lanka','dravidian','sangam'],
+alphabet:[
+  {c:'அ',r:'a'},{c:'ஆ',r:'ā',m:'long a'},{c:'இ',r:'i'},{c:'ஈ',r:'ī',m:'long i'},{c:'உ',r:'u'},
+  {c:'க',r:'ka',m:'velar'},{c:'ங',r:'ṅa',m:'nasal'},{c:'ச',r:'ca',m:'palatal'},{c:'ஞ',r:'ña',m:'nasal'},{c:'ட',r:'ṭa',m:'retroflex'},
+  {c:'ண',r:'ṇa',m:'nasal'},{c:'த',r:'ta',m:'dental'},{c:'ந',r:'na',m:'nasal'},{c:'ப',r:'pa',m:'bilabial'},{c:'ம',r:'ma',m:'nasal'},
+  {c:'ய',r:'ya',m:'palatal'},{c:'ர',r:'ra',m:'trill'},{c:'ல',r:'la',m:'lateral'},{c:'வ',r:'va'},{c:'ழ',r:'ḻa',m:'retroflex lat.'},
+  {c:'ள',r:'ḷa',m:'retroflex'},{c:'ற',r:'ṟa',m:'trill'},{c:'ன',r:'ṉa',m:'alveolar'},
+],
+phrases:[
+  {n:'வணக்கம்',r:'vaṇakkam',e:'Greetings / Hello'},{n:'நன்றி',r:'naṉṟi',e:'Thank you'},
+  {n:'ஆம்',r:'ām',e:'Yes'},{n:'இல்லை',r:'illai',e:'No'},{n:'தயவுசெய்து',r:'tayavuceytu',e:'Please'},
+],
+nums:[{n:'ஒன்று',r:'oṉṟu',e:'1'},{n:'இரண்டு',r:'iraṇṭu',e:'2'},{n:'மூன்று',r:'mūṉṟu',e:'3'},{n:'நான்கு',r:'nāṉku',e:'4'},{n:'ஐந்து',r:'aintu',e:'5'},{n:'ஆறு',r:'āṟu',e:'6'},{n:'ஏழு',r:'ēḻu',e:'7'},{n:'எட்டு',r:'eṭṭu',e:'8'},{n:'ஒன்பது',r:'oṉpatu',e:'9'},{n:'பத்து',r:'pattu',e:'10'}],
+},
+
+{family:'South Asian',id:'sinhala',name:'Sinhala',native:'සිංහල',
+speakers:'17M',type:'Abugida',dir:'LTR',region:'Sri Lanka',chars_count:'56',
+sample:'අආඉඊඋ',
+fun_fact:'Sinhala script descends from Brahmi via Pallava. Its rounded letterforms developed because scribes wrote on palm leaves — sharp corners would split the leaf along its grain.',
+keywords:['sinhala','sri lanka','sinhalese','palm leaf'],
+alphabet:[
+  {c:'අ',r:'a'},{c:'ආ',r:'ā'},{c:'ඉ',r:'i'},{c:'ඊ',r:'ī'},{c:'උ',r:'u'},
+  {c:'ක',r:'ka',m:'velar'},{c:'ඛ',r:'kha'},{c:'ග',r:'ga'},{c:'ඝ',r:'gha'},{c:'ඞ',r:'ṅa',m:'nasal'},
+  {c:'ච',r:'ca'},{c:'ජ',r:'ja'},{c:'ට',r:'ṭa',m:'retroflex'},{c:'ඩ',r:'ḍa'},{c:'ත',r:'ta',m:'dental'},
+  {c:'ද',r:'da'},{c:'න',r:'na'},{c:'ප',r:'pa'},{c:'බ',r:'ba'},{c:'ම',r:'ma'},
+  {c:'ය',r:'ya'},{c:'ර',r:'ra'},{c:'ල',r:'la'},{c:'ව',r:'va'},{c:'ස',r:'sa'},{c:'හ',r:'ha'},
+],
+phrases:[
+  {n:'ආයුබෝවන්',r:'āyubōvan',e:'Long life to you (greeting)'},{n:'ස්තූතියි',r:'stūtiyi',e:'Thank you'},
+  {n:'ඔව්',r:'ov',e:'Yes'},{n:'නෑ',r:'nǣ',e:'No'},
+],
+nums:[{n:'එක',r:'eka',e:'1'},{n:'දෙක',r:'deka',e:'2'},{n:'තුන',r:'tuna',e:'3'},{n:'හතර',r:'hatara',e:'4'},{n:'පහ',r:'paha',e:'5'}],
+},
+
+{family:'Semitic',id:'arabic',name:'Arabic',native:'العربية',
+speakers:'310M+',type:'Abjad (consonants only)',dir:'RTL',region:'Middle East / N.Africa',chars_count:'28 base',
+sample:'بسم الله',
+fun_fact:"Arabic letters change shape by position: initial, medial, final, isolated. Short vowels are usually omitted. The Bismillah is perhaps the most calligraphed phrase in human history.",
+keywords:['arabic','arab','quran','islam','middle east','bismillah','rtl','semitic'],
+alphabet:[
+  {c:'ا',r:'ā/ʾ',m:'alif'},{c:'ب',r:'b',m:'bā'},{c:'ت',r:'t',m:'tā'},{c:'ث',r:'ṯ',m:'thā'},{c:'ج',r:'j',m:'jīm'},
+  {c:'ح',r:'ḥ',m:'ḥā'},{c:'خ',r:'x',m:'khā'},{c:'د',r:'d',m:'dāl'},{c:'ذ',r:'ð',m:'dhāl'},{c:'ر',r:'r',m:'rā'},
+  {c:'ز',r:'z',m:'zayn'},{c:'س',r:'s',m:'sīn'},{c:'ش',r:'š',m:'shīn'},{c:'ص',r:'ṣ',m:'ṣād'},{c:'ض',r:'ḍ',m:'ḍād'},
+  {c:'ط',r:'ṭ',m:'ṭā'},{c:'ظ',r:'ẓ',m:'ẓā'},{c:'ع',r:'ʿ',m:'ʿayn'},{c:'غ',r:'ġ',m:'ghayn'},{c:'ف',r:'f',m:'fā'},
+  {c:'ق',r:'q',m:'qāf'},{c:'ك',r:'k',m:'kāf'},{c:'ل',r:'l',m:'lām'},{c:'م',r:'m',m:'mīm'},{c:'ن',r:'n',m:'nūn'},
+  {c:'ه',r:'h',m:'hā'},{c:'و',r:'w/ū',m:'wāw'},{c:'ي',r:'y/ī',m:'yā'},
+],
+phrases:[
+  {n:'مرحبا',r:'marḥabā',e:'Hello'},{n:'شكراً',r:'shukran',e:'Thank you'},
+  {n:'نعم',r:'naʿam',e:'Yes'},{n:'لا',r:'lā',e:'No'},
+  {n:'السلام عليكم',r:'as-salāmu ʿalaykum',e:'Peace be upon you'},
+  {n:'مع السلامة',r:'maʿa s-salāma',e:'Goodbye (go with safety)'},
+  {n:'لا أفهم',r:'lā afham',e:"I don't understand"},
+],
+nums:[{n:'واحد',r:'wāḥid',e:'1'},{n:'اثنان',r:'ithnān',e:'2'},{n:'ثلاثة',r:'thalātha',e:'3'},{n:'أربعة',r:'arbaʿa',e:'4'},{n:'خمسة',r:'khamsa',e:'5'},{n:'ستة',r:'sitta',e:'6'},{n:'سبعة',r:'sabʿa',e:'7'},{n:'ثمانية',r:'thamāniya',e:'8'},{n:'تسعة',r:'tisʿa',e:'9'},{n:'عشرة',r:'ʿashara',e:'10'}],
+},
+
+{family:'Semitic',id:'hebrew',name:'Hebrew',native:'עברית',
+speakers:'9M',type:'Abjad',dir:'RTL',region:'Israel / diaspora',chars_count:'22',
+sample:'אבגדה',
+fun_fact:"Hebrew was revived as a spoken vernacular in the 19th–20th centuries by Eliezer Ben-Yehuda — the only successful revival of a language with no living native speakers. Five letters have special final forms.",
+keywords:['hebrew','israel','jewish','shalom','torah','rtl','semitic'],
+alphabet:[
+  {c:'א',r:'ʾ',m:'alef (silent)'},{c:'ב',r:'b/v',m:'bet'},{c:'ג',r:'g',m:'gimel'},{c:'ד',r:'d',m:'dalet'},{c:'ה',r:'h',m:'he'},
+  {c:'ו',r:'v/w',m:'vav'},{c:'ז',r:'z',m:'zayin'},{c:'ח',r:'ḥ',m:'het'},{c:'ט',r:'ṭ',m:'tet'},{c:'י',r:'y',m:'yod'},
+  {c:'כ',r:'k/x',m:'kaf'},{c:'ל',r:'l',m:'lamed'},{c:'מ',r:'m',m:'mem'},{c:'נ',r:'n',m:'nun'},{c:'ס',r:'s',m:'samek'},
+  {c:'ע',r:'ʿ',m:'ayin'},{c:'פ',r:'p/f',m:'pe'},{c:'צ',r:'ṣ',m:'tsadi'},{c:'ק',r:'q',m:'qof'},{c:'ר',r:'r',m:'resh'},
+  {c:'ש',r:'š/s',m:'shin/sin'},{c:'ת',r:'t',m:'tav'},
+],
+phrases:[
+  {n:'שלום',r:'shalom',e:'Hello / Peace / Goodbye'},{n:'תודה',r:'toda',e:'Thank you'},
+  {n:'כן',r:'ken',e:'Yes'},{n:'לא',r:'lo',e:'No'},
+  {n:'בבקשה',r:'bevakasha',e:'Please'},{n:'סליחה',r:'sliḥa',e:'Excuse me / Sorry'},
+  {n:'להתראות',r:'lehitraot',e:'See you again'},
+],
+nums:[{n:'אחד',r:'eḥad',e:'1'},{n:'שתיים',r:'shtayim',e:'2'},{n:'שלוש',r:'shalosh',e:'3'},{n:'ארבע',r:'arba',e:'4'},{n:'חמש',r:'ḥamesh',e:'5'},{n:'שש',r:'shesh',e:'6'},{n:'שבע',r:'sheva',e:'7'},{n:'שמונה',r:'shmoneh',e:'8'},{n:'תשע',r:'tesha',e:'9'},{n:'עשר',r:'eser',e:'10'}],
+},
+
+{family:'African',id:'geez',name:"Ge'ez (Ethiopic)",native:'ግዕዝ',
+speakers:'500M users',type:'Abugida',dir:'LTR',region:'Ethiopia / Eritrea',chars_count:'275+',
+sample:'ሀለሐመሠ',
+fun_fact:"Ge'ez is the only indigenous African writing system in continuous use — over 2,500 years old. Each base consonant has 7 forms for the 7 vowels, creating a grid of 275+ distinct symbols.",
+keywords:["ge'ez",'geez','ethiopic','ethiopia','amharic','eritrea','african script'],
+alphabet:[
+  {c:'ሀ',r:'hä',m:'1st order'},{c:'ሁ',r:'hu',m:'2nd'},{c:'ሂ',r:'hi',m:'3rd'},{c:'ሃ',r:'ha',m:'4th'},{c:'ሄ',r:'he',m:'5th'},
+  {c:'ህ',r:'h',m:'6th'},{c:'ሆ',r:'ho',m:'7th'},{c:'ለ',r:'lä',m:'la'},{c:'መ',r:'mä',m:'ma'},{c:'ሠ',r:'sä',m:'sa'},
+  {c:'ረ',r:'rä',m:'ra'},{c:'ሰ',r:'sä',m:'sa-alt'},{c:'ሸ',r:'shä',m:'sha'},{c:'ቀ',r:'qä',m:'qa'},{c:'በ',r:'bä',m:'ba'},
+  {c:'ተ',r:'tä',m:'ta'},{c:'ነ',r:'nä',m:'na'},{c:'አ',r:'ä',m:'glottal'},{c:'ከ',r:'kä',m:'ka'},{c:'ወ',r:'wä',m:'wa'},
+  {c:'ዘ',r:'zä',m:'za'},{c:'የ',r:'yä',m:'ya'},{c:'ደ',r:'dä',m:'da'},{c:'ጠ',r:'ṭä',m:'emphatic t'},{c:'ጸ',r:'ṣä',m:'emphatic s'},
+],
+phrases:[
+  {n:'ሰላም',r:'selam',e:'Peace / Hello'},{n:'ይቅርታ',r:'yiqirta',e:'Sorry / Forgiveness'},
+  {n:'አዎ',r:'awo',e:'Yes'},{n:'አይ',r:'ayi',e:'No'},
+],
+nums:[{n:'፩',r:'and',e:'1'},{n:'፪',r:'hulet',e:'2'},{n:'፫',r:'sost',e:'3'},{n:'፬',r:'arat',e:'4'},{n:'፭',r:'amist',e:'5'},{n:'፮',r:'siddist',e:'6'},{n:'፯',r:'sebat',e:'7'},{n:'፰',r:'siment',e:'8'},{n:'፱',r:'zetegn',e:'9'},{n:'፲',r:'asir',e:'10'}],
+},
+
+{family:'African',id:'nko',name:"N'Ko",native:'ߒߞߏ',
+speakers:'10M',type:'Alphabet',dir:'RTL',region:'West Africa (Mande)',chars_count:'27',
+sample:'ߊߋߌߍߎ',
+fun_fact:"N'Ko was invented in 1949 by Solomana Kante — a single man who taught himself to read in Arabic, then created an entirely new alphabet for Mande languages of West Africa.",
+keywords:["n'ko",'nko','mande','west africa','guinea','mali','solomana'],
+alphabet:[
+  {c:'ߊ',r:'a'},{c:'ߋ',r:'e'},{c:'ߌ',r:'i'},{c:'ߍ',r:'ɛ'},{c:'ߎ',r:'u'},
+  {c:'ߏ',r:'o'},{c:'ߐ',r:'ɔ'},{c:'ߒ',r:'ɲ',m:'nasal palatal'},{c:'ߓ',r:'b'},{c:'ߔ',r:'p'},
+  {c:'ߕ',r:'t'},{c:'ߖ',r:'j'},{c:'ߗ',r:'ch'},{c:'ߘ',r:'d'},{c:'ߙ',r:'r'},
+  {c:'ߚ',r:'rr'},{c:'ߛ',r:'s'},{c:'ߜ',r:'gb'},{c:'ߝ',r:'f'},{c:'ߞ',r:'k'},
+  {c:'ߟ',r:'l'},{c:'ߠ',r:'ny'},{c:'ߡ',r:'m'},{c:'ߢ',r:'ŋ'},{c:'ߣ',r:'n'},{c:'ߤ',r:'h'},{c:'ߥ',r:'w'},{c:'ߦ',r:'y'},
+],
+phrases:[
+  {n:'ߒ ߞߊ߲ ߝߐ',r:'n kan fo',e:'Hello (lit. I greet you)'},
+  {n:'ߌ ߣߌ߫ ߝߊ',r:'i ni fa',e:'Thank you'},
+],
+nums:[{n:'߁',r:'kelen',e:'1'},{n:'߂',r:'fila',e:'2'},{n:'߃',r:'saba',e:'3'},{n:'߄',r:'naani',e:'4'},{n:'߅',r:'duuru',e:'5'}],
+},
+
+{family:'European',id:'greek',name:'Greek',native:'Ελληνικά',
+speakers:'13M',type:'Alphabet',dir:'LTR',region:'Greece / Cyprus',chars_count:'24',
+sample:'αβγδεζ',
+fun_fact:'The Greek alphabet (~800 BCE) was the first to represent vowels as separate equal letters. Ancestor of Latin, Cyrillic, Coptic, and Gothic. "Alphabet" is Alpha + Beta.',
+keywords:['greek','greece','alphabet','ancient greece','philosophy','aristotle','plato','alpha','omega'],
+alphabet:[
+  {c:'Α',r:'a',m:'alpha'},{c:'Β',r:'b',m:'beta'},{c:'Γ',r:'g',m:'gamma'},{c:'Δ',r:'d',m:'delta'},{c:'Ε',r:'e',m:'epsilon'},
+  {c:'Ζ',r:'z',m:'zeta'},{c:'Η',r:'ē',m:'eta'},{c:'Θ',r:'th',m:'theta'},{c:'Ι',r:'i',m:'iota'},{c:'Κ',r:'k',m:'kappa'},
+  {c:'Λ',r:'l',m:'lambda'},{c:'Μ',r:'m',m:'mu'},{c:'Ν',r:'n',m:'nu'},{c:'Ξ',r:'x',m:'xi'},{c:'Ο',r:'o',m:'omicron'},
+  {c:'Π',r:'p',m:'pi'},{c:'Ρ',r:'r',m:'rho'},{c:'Σ',r:'s',m:'sigma'},{c:'Τ',r:'t',m:'tau'},{c:'Υ',r:'u/y',m:'upsilon'},
+  {c:'Φ',r:'ph',m:'phi'},{c:'Χ',r:'ch',m:'chi'},{c:'Ψ',r:'ps',m:'psi'},{c:'Ω',r:'ō',m:'omega'},
+],
+phrases:[
+  {n:'Γεια σου',r:'ya su',e:'Hello (informal)'},{n:'Ευχαριστώ',r:'efcharistó',e:'Thank you'},
+  {n:'Ναι',r:'ne',e:'Yes'},{n:'Όχι',r:'ochi',e:'No'},
+  {n:"Παρακαλώ",r:'parakaló',e:"Please / You're welcome"},
+  {n:'Αντίο',r:'adío',e:'Goodbye'},{n:'Δεν καταλαβαίνω',r:'den katalaveíno',e:"I don't understand"},
+],
+nums:[{n:'ένα',r:'ena',e:'1'},{n:'δύο',r:'dyo',e:'2'},{n:'τρία',r:'tria',e:'3'},{n:'τέσσερα',r:'tessera',e:'4'},{n:'πέντε',r:'pende',e:'5'},{n:'έξι',r:'exi',e:'6'},{n:'επτά',r:'epta',e:'7'},{n:'οχτώ',r:'ochtó',e:'8'},{n:'εννέα',r:'ennea',e:'9'},{n:'δέκα',r:'deka',e:'10'}],
+},
+
+{family:'European',id:'cyrillic',name:'Cyrillic',native:'Кириллица',
+speakers:'250M+',type:'Alphabet',dir:'LTR',region:'E.Europe / Russia / C.Asia',chars_count:'33 (Russian)',
+sample:'АаБбВвГгДд',
+fun_fact:"Created by Saints Cyril and Methodius in 863 CE for Old Church Slavonic. Ж (zh) sounds like the 's' in 'measure' — no English equivalent.",
+keywords:['russian','cyrillic','russia','slavic','ukraine','soviet'],
+alphabet:[
+  {c:'А',r:'a'},{c:'Б',r:'b'},{c:'В',r:'v'},{c:'Г',r:'g'},{c:'Д',r:'d'},
+  {c:'Е',r:'ye'},{c:'Ё',r:'yo'},{c:'Ж',r:'zh',m:'like "measure"'},{c:'З',r:'z'},{c:'И',r:'i'},
+  {c:'К',r:'k'},{c:'Л',r:'l'},{c:'М',r:'m'},{c:'Н',r:'n'},{c:'О',r:'o'},
+  {c:'П',r:'p'},{c:'Р',r:'r',m:'rolled'},{c:'С',r:'s'},{c:'Т',r:'t'},{c:'У',r:'u'},
+  {c:'Ф',r:'f'},{c:'Х',r:'kh',m:'like "loch"'},{c:'Ц',r:'ts'},{c:'Ч',r:'ch'},{c:'Ш',r:'sh'},
+  {c:'Щ',r:'shch'},{c:'Ъ',r:'—',m:'hard sign'},{c:'Ы',r:'y',m:'no English equiv.'},{c:'Ь',r:'—',m:'soft sign'},{c:'Э',r:'e'},
+  {c:'Ю',r:'yu'},{c:'Я',r:'ya'},
+],
+phrases:[
+  {n:'Привет',r:'privet',e:'Hello (informal)'},{n:'Спасибо',r:'spasibo',e:'Thank you'},
+  {n:'Да',r:'da',e:'Yes'},{n:'Нет',r:'nyet',e:'No'},
+  {n:'Пожалуйста',r:'pozhaluysta',e:"Please / You're welcome"},
+  {n:'До свидания',r:'do svidaniya',e:'Goodbye'},{n:'Я не понимаю',r:'ya ne ponimayu',e:"I don't understand"},
+],
+nums:[{n:'один',r:'odin',e:'1'},{n:'два',r:'dva',e:'2'},{n:'три',r:'tri',e:'3'},{n:'четыре',r:'chetyre',e:'4'},{n:'пять',r:'pyat',e:'5'},{n:'шесть',r:'shest',e:'6'},{n:'семь',r:'sem',e:'7'},{n:'восемь',r:'vosem',e:'8'},{n:'девять',r:'devyat',e:'9'},{n:'десять',r:'desyat',e:'10'}],
+},
+
+{family:'European',id:'armenian',name:'Armenian',native:'Հայերեն',
+speakers:'6.7M',type:'Alphabet',dir:'LTR',region:'Armenia / diaspora',chars_count:'38',
+sample:'ԱԲԳԴԵ',
+fun_fact:'Invented in 405 CE by scholar-monk Mesrop Mashtots, reportedly in a vision. Its 38 letters have remained almost unchanged for 1,600 years.',
+keywords:['armenian','armenia','mesrop','caucasus'],
+alphabet:[
+  {c:'Ա',r:'a',m:'ayb'},{c:'Բ',r:'b',m:'ben'},{c:'Գ',r:'g',m:'gim'},{c:'Դ',r:'d',m:'da'},{c:'Ե',r:'ye',m:'yech'},
+  {c:'Զ',r:'z',m:'za'},{c:'Է',r:'e',m:'eh'},{c:'Ը',r:'ë',m:'et'},{c:'Թ',r:'th',m:'to'},{c:'Ժ',r:'zh',m:'zhe'},
+  {c:'Ի',r:'i',m:'ini'},{c:'Լ',r:'l',m:'liwn'},{c:'Խ',r:'x',m:'xeh'},{c:'Ծ',r:'ts',m:'ca'},{c:'Կ',r:'k',m:'ken'},
+  {c:'Հ',r:'h',m:'ho'},{c:'Ձ',r:'dz',m:'ja'},{c:'Ղ',r:'gh',m:'ghad'},{c:'Ճ',r:'tch',m:'che'},{c:'Մ',r:'m',m:'men'},
+  {c:'Յ',r:'y',m:'yi'},{c:'Ն',r:'n',m:'now'},{c:'Շ',r:'sh',m:'sha'},{c:'Ո',r:'vo',m:'vo'},{c:'Չ',r:'ch',m:'cha'},
+  {c:'Պ',r:'p',m:'peh'},{c:'Ջ',r:'j',m:'jheh'},{c:'Ռ',r:'rr',m:'ra'},{c:'Ս',r:'s',m:'seh'},{c:'Վ',r:'v',m:'vev'},
+  {c:'Տ',r:'t',m:'tiwn'},{c:'Ր',r:'r',m:'reh'},{c:'Ց',r:'ts',m:'co'},{c:'Փ',r:'ph',m:'piwr'},{c:'Ք',r:'kh',m:'ke'},
+  {c:'Օ',r:'o',m:'oh'},{c:'Ֆ',r:'f',m:'feh'},
+],
+phrases:[
+  {n:'Բարև',r:'barev',e:'Hello (informal)'},{n:'Շնորհակալություն',r:'shnorhakalutyun',e:'Thank you'},
+  {n:'Այո',r:'ayo',e:'Yes'},{n:'Ոչ',r:'voch',e:'No'},{n:'Ներողություն',r:'neroghutyun',e:'Sorry / Excuse me'},
+],
+nums:[{n:'մեկ',r:'mek',e:'1'},{n:'երկու',r:'yerku',e:'2'},{n:'երեք',r:'yereq',e:'3'},{n:'չորս',r:'chors',e:'4'},{n:'հինգ',r:'hing',e:'5'}],
+},
+
+{family:'European',id:'georgian',name:'Georgian',native:'ქართული',
+speakers:'3.7M',type:'Alphabet',dir:'LTR',region:'Georgia (Caucasus)',chars_count:'33',
+sample:'ა ბ გ დ ე',
+fun_fact:'Georgian has no capital letters and no known relationship to any other writing system. Its rounded Mkhedruli letterforms have no foreign ancestor.',
+keywords:['georgian','georgia','caucasus','mkhedruli','ejective','tbilisi'],
+alphabet:[
+  {c:'ა',r:'a'},{c:'ბ',r:'b'},{c:'გ',r:'g'},{c:'დ',r:'d'},{c:'ე',r:'e'},
+  {c:'ვ',r:'v'},{c:'ზ',r:'z'},{c:'თ',r:'th'},{c:'ი',r:'i'},{c:'კ',r:"k'",m:'ejective'},
+  {c:'ლ',r:'l'},{c:'მ',r:'m'},{c:'ნ',r:'n'},{c:'ო',r:'o'},{c:'პ',r:"p'",m:'ejective'},
+  {c:'ჟ',r:'zh'},{c:'რ',r:'r'},{c:'ს',r:'s'},{c:'ტ',r:"t'",m:'ejective'},{c:'უ',r:'u'},
+  {c:'ფ',r:'ph'},{c:'ქ',r:'kh'},{c:'ღ',r:'gh'},{c:'ყ',r:"q'",m:'ejective'},{c:'შ',r:'sh'},
+  {c:'ჩ',r:'ch'},{c:'ც',r:'ts'},{c:'ძ',r:'dz'},{c:'წ',r:"ts'",m:'ejective'},{c:'ჭ',r:"ch'",m:'ejective'},
+  {c:'ხ',r:'kh'},{c:'ჯ',r:'j'},{c:'ჰ',r:'h'},
+],
+phrases:[
+  {n:'გამარჯობა',r:'gamarjoba',e:'Hello (victory to you)'},{n:'გმადლობ',r:'gmadlob',e:'Thank you'},
+  {n:'კი',r:'ki',e:'Yes'},{n:'არა',r:'ara',e:'No'},
+],
+nums:[{n:'ერთი',r:'erti',e:'1'},{n:'ორი',r:'ori',e:'2'},{n:'სამი',r:'sami',e:'3'},{n:'ოთხი',r:'otkhi',e:'4'},{n:'ხუთი',r:'khuti',e:'5'}],
+},
+
+{family:'Southeast Asian',id:'thai',name:'Thai',native:'ภาษาไทย',
+speakers:'60M',type:'Abugida',dir:'LTR',region:'Thailand',chars_count:'44 consonants',
+sample:'กขคงจ',
+fun_fact:'Thai is written without spaces between words — spaces mark clause endings. Its 5 tones are encoded into the script via consonant class (high/mid/low) plus optional tone marks.',
+keywords:['thai','thailand','bangkok','tonal','southeast asia'],
+alphabet:[
+  {c:'ก',r:'k',m:'mid class'},{c:'ข',r:'kh',m:'high class'},{c:'ค',r:'kh',m:'low class'},{c:'ง',r:'ng',m:'nasal'},{c:'จ',r:'ch',m:'mid class'},
+  {c:'ช',r:'ch',m:'low class'},{c:'ซ',r:'s',m:'low class'},{c:'ญ',r:'y',m:'low class'},{c:'ด',r:'d',m:'mid class'},{c:'ต',r:'t',m:'mid class'},
+  {c:'น',r:'n',m:'low class'},{c:'บ',r:'b',m:'mid class'},{c:'ป',r:'p',m:'mid class'},{c:'ผ',r:'ph',m:'high class'},{c:'พ',r:'ph',m:'low class'},
+  {c:'ม',r:'m',m:'low class'},{c:'ย',r:'y',m:'low class'},{c:'ร',r:'r',m:'low class'},{c:'ล',r:'l',m:'low class'},{c:'ว',r:'w',m:'low class'},
+  {c:'ส',r:'s',m:'high class'},{c:'ห',r:'h',m:'high class'},{c:'อ',r:'ʔ',m:'mid class'},
+],
+phrases:[
+  {n:'สวัสดี',r:'sawatdi',e:'Hello / Goodbye'},{n:'ขอบคุณ',r:'khob khun',e:'Thank you'},
+  {n:'ใช่',r:'chai',e:'Yes'},{n:'ไม่',r:'mai',e:'No'},
+  {n:'ขอโทษ',r:'kho thot',e:"I'm sorry / Excuse me"},{n:'ไม่เข้าใจ',r:'mai khao chai',e:"I don't understand"},
+],
+nums:[{n:'หนึ่ง',r:'nueng',e:'1'},{n:'สอง',r:'song',e:'2'},{n:'สาม',r:'sam',e:'3'},{n:'สี่',r:'si',e:'4'},{n:'ห้า',r:'ha',e:'5'},{n:'หก',r:'hok',e:'6'},{n:'เจ็ด',r:'jet',e:'7'},{n:'แปด',r:'paet',e:'8'},{n:'เก้า',r:'kao',e:'9'},{n:'สิบ',r:'sip',e:'10'}],
+},
+
+{family:'Southeast Asian',id:'balinese',name:'Balinese',native:'ᬅᬓ᭄ᬱᬭᬩᬮᬶ',
+speakers:'3.3M',type:'Abugida',dir:'LTR',region:'Bali, Indonesia',chars_count:'47+',
+sample:'ᬅᬆᬇᬈᬉ',
+fun_fact:'In Balinese cosmology, letters are sacred — each associated with a deity and used in ritual. Palm-leaf manuscripts (lontar) are still produced today. Descends from ancient Brahmi via Old Kawi.',
+keywords:['balinese','bali','indonesia','lontar','brahmi'],
+alphabet:[
+  {c:'ᬅ',r:'a'},{c:'ᬆ',r:'ā'},{c:'ᬇ',r:'i'},{c:'ᬈ',r:'ī'},{c:'ᬉ',r:'u'},
+  {c:'ᬊ',r:'ū'},{c:'ᬏ',r:'e'},{c:'ᬐ',r:'ai'},{c:'ᬑ',r:'o'},{c:'ᬒ',r:'au'},
+  {c:'ᬓ',r:'ka'},{c:'ᬔ',r:'kha'},{c:'ᬕ',r:'ga'},{c:'ᬖ',r:'gha'},{c:'ᬗ',r:'ṅa'},
+  {c:'ᬘ',r:'ca'},{c:'ᬙ',r:'cha'},{c:'ᬚ',r:'ja'},{c:'ᬛ',r:'jha'},{c:'ᬜ',r:'ña'},
+  {c:'ᬝ',r:'ṭa'},{c:'ᬞ',r:'ṭha'},{c:'ᬟ',r:'ḍa'},{c:'ᬠ',r:'ḍha'},{c:'ᬡ',r:'ṇa'},
+  {c:'ᬢ',r:'ta'},{c:'ᬣ',r:'tha'},{c:'ᬤ',r:'da'},{c:'ᬥ',r:'dha'},{c:'ᬦ',r:'na'},
+],
+phrases:[
+  {n:'Om swastyastu',r:'om swastyastu',e:'Blessed greeting (Sanskrit-Balinese)'},
+  {n:'Suksma',r:'suksma',e:'Thank you'},{n:'Nggih',r:'nggih',e:'Yes (polite)'},{n:'Tusing',r:'tusing',e:'No'},
+],
+nums:[{n:'ᭀ',r:'besik',e:'1'},{n:'ᬤᭀ',r:'dua',e:'2'},{n:'ᬢᬾᬮᬸ',r:'telu',e:'3'},{n:'ᬧᬢ᭄',r:'pat',e:'4'},{n:'ᬮᬶᬫ',r:'lima',e:'5'}],
+},
+
+{family:'Central Asian',id:'tibetan',name:'Tibetan',native:'བོད་ཡིག',
+speakers:'6M',type:'Abugida',dir:'LTR',region:'Tibet / Himalaya',chars_count:'30 base',
+sample:'ཀཁགངཅ',
+fun_fact:"Invented in the 7th century by Thonmi Sambhota. The written form deliberately preserves ancient pronunciation long abandoned in speech — a living fossil of sound.",
+keywords:['tibetan','tibet','himalaya','buddhism','dalai lama','dharma'],
+alphabet:[
+  {c:'ཀ',r:'ka'},{c:'ཁ',r:'kha',m:'aspirated'},{c:'ག',r:'ga',m:'voiced'},{c:'ང',r:'nga',m:'nasal'},{c:'ཅ',r:'ca'},
+  {c:'ཆ',r:'cha',m:'aspirated'},{c:'ཇ',r:'ja',m:'voiced'},{c:'ཉ',r:'nya',m:'nasal'},{c:'ཏ',r:'ta'},{c:'ཐ',r:'tha',m:'aspirated'},
+  {c:'ད',r:'da',m:'voiced'},{c:'ན',r:'na',m:'nasal'},{c:'པ',r:'pa'},{c:'ཕ',r:'pha',m:'aspirated'},{c:'བ',r:'ba',m:'voiced'},
+  {c:'མ',r:'ma',m:'nasal'},{c:'ཙ',r:'tsa'},{c:'ཚ',r:'tsha',m:'aspirated'},{c:'ཛ',r:'dza',m:'voiced'},{c:'ཝ',r:'wa'},
+  {c:'ཞ',r:'zha'},{c:'ཟ',r:'za'},{c:'འ',r:'a',m:'a-chen'},{c:'ཡ',r:'ya'},{c:'ར',r:'ra'},
+  {c:'ལ',r:'la'},{c:'ཤ',r:'sha'},{c:'ས',r:'sa'},{c:'ཧ',r:'ha'},{c:'ཨ',r:'a',m:'vowel carrier'},
+],
+phrases:[
+  {n:'བཀྲ་ཤིས་བདེ་ལེགས',r:'tashi delek',e:'Auspicious greetings'},
+  {n:'ཐུགས་རྗེ་ཆེ',r:'thugs rje che',e:'Thank you (formal)'},
+  {n:'ཨིན',r:'yin',e:'Yes'},{n:'མིན',r:'min',e:'No'},
+],
+nums:[{n:'གཅིག',r:'gcig',e:'1'},{n:'གཉིས',r:'gnyis',e:'2'},{n:'གསུམ',r:'gsum',e:'3'},{n:'བཞི',r:'bzhi',e:'4'},{n:'ལྔ',r:'lnga',e:'5'},{n:'དྲུག',r:'drug',e:'6'},{n:'བདུན',r:'bdun',e:'7'},{n:'བརྒྱད',r:'brgyad',e:'8'},{n:'དགུ',r:'dgu',e:'9'},{n:'བཅུ',r:'bcu',e:'10'}],
+},
+
+{family:'Central Asian',id:'mongolian',name:'Mongolian (Traditional)',native:'ᠮᠣᠩᠭᠣᠯ',
+speakers:'5.2M',type:'Alphabet',dir:'Top-to-Bottom',region:'Mongolia / Inner Mongolia',chars_count:'35',
+sample:'ᠠᠡᠢᠣᠤ',
+fun_fact:"Traditional Mongolian is written vertically, top-to-bottom. Lineage: Aramaic → Sogdian → Uyghur → Mongolian. It was the script of Genghis Khan's decrees.",
+keywords:['mongolian','mongolia','genghis','vertical script','inner mongolia','steppe'],
+alphabet:[
+  {c:'ᠠ',r:'a'},{c:'ᠡ',r:'e'},{c:'ᠢ',r:'i'},{c:'ᠣ',r:'o'},{c:'ᠤ',r:'u'},
+  {c:'ᠥ',r:'ö'},{c:'ᠦ',r:'ü'},{c:'ᠨ',r:'n'},{c:'ᠪ',r:'b'},{c:'ᠫ',r:'p'},
+  {c:'ᠬ',r:'q/h'},{c:'ᠭ',r:'g'},{c:'ᠮ',r:'m'},{c:'ᠯ',r:'l'},{c:'ᠰ',r:'s'},
+  {c:'ᠱ',r:'š'},{c:'ᠲ',r:'t'},{c:'ᠳ',r:'d'},{c:'ᠴ',r:'č'},{c:'ᠵ',r:'j'},
+  {c:'ᠶ',r:'y'},{c:'ᠷ',r:'r'},{c:'ᠸ',r:'w'},{c:'ᠹ',r:'f'},{c:'ᠺ',r:'k'},
+],
+phrases:[
+  {n:'Сайн байна уу',r:'sain baina uu',e:'Hello (are you well?)'},{n:'Баярлалаа',r:'bayarlalaa',e:'Thank you'},
+  {n:'Тийм',r:'tiim',e:'Yes'},{n:'Үгүй',r:'ügüi',e:'No'},
+],
+nums:[{n:'нэг',r:'neg',e:'1'},{n:'хоёр',r:'khoyor',e:'2'},{n:'гурав',r:'gurav',e:'3'},{n:'дөрөв',r:'döröv',e:'4'},{n:'тав',r:'tav',e:'5'}],
+},
+
+{family:'Ancient & Indigenous',id:'hieroglyphs',name:'Egyptian Hieroglyphs',native:'𓇳𓏏𓈖𓇌',
+speakers:'0 (extinct ~4th c. CE)',type:'Logophonetic',dir:'RTL/LTR/TTB',region:'Ancient Egypt',chars_count:'700+ (classical)',
+sample:'𓀀𓁐𓃠𓆓𓇳',
+fun_fact:'Hieroglyphs can be read left-to-right or right-to-left — direction shown by which way the animals face: they always face the start of the text. The Rosetta Stone (196 BCE) unlocked them for Champollion in 1822.',
+keywords:['hieroglyphs','egyptian','egypt','pharaoh','rosetta stone','ankh','ra','pyramid','maat'],
+alphabet:[
+  {c:'𓄿',r:'ꜣ',m:'vulture'},{c:'𓀀',r:'i',m:'reed'},{c:'𓈖',r:'n',m:'water'},{c:'𓂋',r:'r',m:'mouth'},{c:'𓉐',r:'h',m:'shelter'},
+  {c:'𓅓',r:'m',m:'owl'},{c:'𓃀',r:'b',m:'leg'},{c:'𓆑',r:'f',m:'horned viper'},{c:'𓏏',r:'t',m:'bread loaf'},{c:'𓂧',r:'d',m:'hand'},
+  {c:'𓆓',r:'ḏ',m:'cobra'},{c:'𓐍',r:'ḫ',m:'placenta'},{c:'𓇋',r:'i',m:'reed (alt)'},{c:'𓁹',r:'ir',m:'eye (ideogram)'},
+  {c:'𓋹',r:'ꜥnḫ',m:'ankh / life'},{c:'𓇳',r:'rꜥ',m:'sun / Ra'},{c:'𓆤',r:'xpr',m:'scarab / becoming'},
+],
+phrases:[
+  {n:'𓋹',r:'ꜥnḫ',e:'Life (the Ankh)'},{n:'𓇳',r:'Rꜥ',e:'Ra — the Sun'},
+  {n:'𓌀𓂋𓏏',r:'mꜣꜥt',e:'Truth / Maat'},
+],
+nums:[{n:'𓏺',r:'1',e:'one stroke'},{n:'𓎆',r:'10',e:'hobble for cattle'},{n:'𓍢',r:'100',e:'coil of rope'},{n:'𓆼',r:'1,000',e:'lotus plant'},{n:'𓂭',r:'10,000',e:'bent finger'},{n:'𓆐',r:'100,000',e:'tadpole/frog'}],
+},
+
+{family:'Ancient & Indigenous',id:'futhark',name:'Elder Futhark (Runes)',native:'ᚠᚢᚦᚨᚱᚲ',
+speakers:'0 (historical)',type:'Runic alphabet',dir:'LTR/RTL (variable)',region:'Germanic / Scandinavia',chars_count:'24',
+sample:'ᚠᚢᚦᚨᚱᚲᚷᚹ',
+fun_fact:'Each rune was not merely a letter but a named concept: ᚠ fehu (wealth), ᛏ tiwaz (justice/Tyr), ᛉ algiz (protection). Runes were carved — never printed. The carving itself was the ritual.',
+keywords:['runes','futhark','viking','norse','germanic','scandinavia','odin','thor','magic','runic'],
+alphabet:[
+  {c:'ᚠ',r:'f',m:'fehu: cattle/wealth'},{c:'ᚢ',r:'u',m:'uruz: aurochs'},{c:'ᚦ',r:'þ',m:'thurisaz: giant'},{c:'ᚨ',r:'a',m:'ansuz: Odin'},{c:'ᚱ',r:'r',m:'raidho: journey'},
+  {c:'ᚲ',r:'k',m:'kaunan: torch'},{c:'ᚷ',r:'g',m:'gebo: gift'},{c:'ᚹ',r:'w',m:'wunjo: joy'},{c:'ᚺ',r:'h',m:'hagalaz: hail'},{c:'ᚾ',r:'n',m:'naudhiz: need'},
+  {c:'ᛁ',r:'i',m:'isaz: ice'},{c:'ᛃ',r:'j',m:'jera: harvest'},{c:'ᛇ',r:'ï',m:'ihwaz: yew tree'},{c:'ᛈ',r:'p',m:'perthro: mystery'},{c:'ᛉ',r:'z',m:'algiz: protection'},
+  {c:'ᛊ',r:'s',m:'sowilo: sun'},{c:'ᛏ',r:'t',m:'tiwaz: justice'},{c:'ᛒ',r:'b',m:'berkanan: birch'},{c:'ᛖ',r:'e',m:'ehwaz: horse'},{c:'ᛗ',r:'m',m:'mannaz: humanity'},
+  {c:'ᛚ',r:'l',m:'laguz: water'},{c:'ᛜ',r:'ŋ',m:'ingwaz: god Ing'},{c:'ᛞ',r:'d',m:'dagaz: dawn'},{c:'ᛟ',r:'o',m:'othalan: heritage'},
+],
+phrases:[
+  {n:'ᚠᚢᚦᚨᚱᚲ',r:'futhark',e:'The alphabet name (first 6 runes)'},
+  {n:'ᚷᛁᛒᚢ ᚷᛖᛒᛟ',r:'gibu gefo',e:'I give a gift (runic charm)'},
+  {n:'ᛏᛁᚹᚨᛉ',r:'tiwaz',e:'Victory / Justice'},
+],
+nums:[],
+},
+
+{family:'Ancient & Indigenous',id:'cherokee',name:'Cherokee',native:'ᏣᎳᎩ',
+speakers:'2,000 fluent',type:'Syllabary',dir:'LTR',region:'SE United States',chars_count:'85',
+sample:'ᎠᎡᎢᎣᎤᎥ',
+fun_fact:"Created by Sequoyah around 1820 — he was illiterate in any language when he began. He spent 12 years on it. Within months of introduction, thousands of Cherokee became literate.",
+keywords:['cherokee','sequoyah','native american','indigenous','appalachian','cherokee nation'],
+alphabet:[
+  {c:'Ꭰ',r:'a'},{c:'Ꭱ',r:'e'},{c:'Ꭲ',r:'i'},{c:'Ꭳ',r:'o'},{c:'Ꭴ',r:'u'},{c:'Ꭵ',r:'v',m:'nasalized'},
+  {c:'Ꭶ',r:'ga'},{c:'Ꭷ',r:'ka'},{c:'Ꭸ',r:'ge'},{c:'Ꭹ',r:'gi'},{c:'Ꭺ',r:'go'},{c:'Ꭻ',r:'gu'},
+  {c:'Ꭽ',r:'ha'},{c:'Ꭾ',r:'he'},{c:'Ꭿ',r:'hi'},{c:'Ꮀ',r:'ho'},{c:'Ꮁ',r:'hu'},{c:'Ꮂ',r:'hv'},
+  {c:'Ꮃ',r:'la'},{c:'Ꮄ',r:'le'},{c:'Ꮅ',r:'li'},{c:'Ꮆ',r:'lo'},{c:'Ꮇ',r:'lu'},{c:'Ꮈ',r:'lv'},
+  {c:'Ꮉ',r:'ma'},{c:'Ꮊ',r:'me'},{c:'Ꮋ',r:'mi'},{c:'Ꮌ',r:'mo'},{c:'Ꮍ',r:'mu'},
+  {c:'Ꮎ',r:'na'},{c:'Ꮑ',r:'ne'},{c:'Ꮒ',r:'ni'},{c:'Ꮓ',r:'no'},{c:'Ꮔ',r:'nu'},
+],
+phrases:[
+  {n:'ᎣᏏᏲ',r:'osiyo',e:'Hello'},{n:'ᏩᏙᏗ',r:'wado',e:'Thank you'},
+  {n:'ᎣᏩᏅ',r:'owanv',e:'It is good'},{n:'ᎯᎠ',r:'hia',e:'Yes / Here'},{n:'ᏙᎭ',r:'toha',e:'No'},
+],
+nums:[{n:'ᏐᏁ',r:'sone',e:'1'},{n:'ᏔᎵ',r:'tali',e:'2'},{n:'ᏦᎢ',r:'joi',e:'3'},{n:'ᏅᎩ',r:'nvgi',e:'4'},{n:'ᎯᏍᎩ',r:'hisgi',e:'5'}],
+},
+
+{family:'Latin & IPA',id:'ipa',name:'IPA (Phonetic Alphabet)',native:'ˈɪntənæʃənl fəˈnɛtɪk',
+speakers:'Universal (linguists)',type:'Transcription system',dir:'LTR',region:'Global',chars_count:'107+ symbols',
+sample:'ɑ ə ɛ ɪ ʊ',
+fun_fact:'Created in 1888 to represent every sound in every human language. A complete IPA transcription can notate any utterance any human has ever made.',
+keywords:['ipa','phonetic','linguistics','phonology','transcription','pronunciation','sound'],
+alphabet:[
+  {c:'p',r:'p',m:'bilabial stop'},{c:'b',r:'b',m:'voiced bilabial'},{c:'t',r:'t',m:'alveolar stop'},{c:'d',r:'d',m:'voiced alveolar'},{c:'k',r:'k',m:'velar stop'},
+  {c:'g',r:'g',m:'voiced velar'},{c:'ʔ',r:'ʔ',m:'glottal stop'},{c:'m',r:'m',m:'bilabial nasal'},{c:'n',r:'n',m:'alveolar nasal'},{c:'ŋ',r:'ng',m:'velar nasal'},
+  {c:'f',r:'f',m:'labiodental fric.'},{c:'v',r:'v',m:'voiced labiodental'},{c:'θ',r:'th',m:'dental fric.'},{c:'ð',r:'dh',m:'voiced dental'},{c:'s',r:'s',m:'alveolar fric.'},
+  {c:'z',r:'z',m:'voiced alveolar'},{c:'ʃ',r:'sh',m:'palatal fric.'},{c:'ʒ',r:'zh',m:'voiced palatal'},{c:'x',r:'kh',m:'velar fric.'},{c:'h',r:'h',m:'glottal fric.'},
+  {c:'a',r:'a',m:'open front'},{c:'ɑ',r:'ɑ',m:'open back'},{c:'ɛ',r:'ɛ',m:'open-mid front'},{c:'ə',r:'ə',m:'schwa'},{c:'i',r:'i',m:'close front'},
+  {c:'ɪ',r:'ɪ',m:'near-close front'},{c:'o',r:'o',m:'close-mid back'},{c:'u',r:'u',m:'close back'},{c:'ʊ',r:'ʊ',m:'near-close back'},
+  {c:'r',r:'r',m:'alveolar trill'},{c:'l',r:'l',m:'lateral approx.'},{c:'j',r:'j',m:'palatal approx.'},{c:'w',r:'w',m:'labio-velar'},
+],
+phrases:[
+  {n:'həˈloʊ',r:'həˈloʊ',e:'"Hello" transcribed'},{n:'ðə',r:'ðə',e:'"The" (unstressed)'},
+  {n:'ˈwɔːtər',r:'ˈwɔːtər',e:'"Water" (British)'},{n:'aɪ ˈdoʊnt ʌndərˈstænd',r:'ai dont andastand',e:'"I don\'t understand"'},
+],
+nums:[{n:'wʌn',r:'wʌn',e:'one'},{n:'tuː',r:'tuː',e:'two'},{n:'θriː',r:'θriː',e:'three'},{n:'fɔːr',r:'fɔːr',e:'four'},{n:'faɪv',r:'faɪv',e:'five'}],
+},
+
+]; // END ROM
+
+/* ═══════════════════════════════════════════════════
+   BUILD SIDEBAR
+   ═══════════════════════════════════════════════════ */
+(function buildSidebar(){
+  const fams={};
+  ROM.forEach(L=>{(fams[L.family]=fams[L.family]||[]).push(L);});
+  const list=$('DISKLIST');
+  Object.entries(fams).forEach(([fam,langs])=>{
+    const g=document.createElement('div'); g.className='disk-family';
+    g.innerHTML=`<div class="disk-fam-label">${fam}</div>`;
+    langs.forEach(L=>{
+      const btn=document.createElement('div'); btn.className='disk-entry'; btn.dataset.id=L.id;
+      btn.innerHTML=`<span class="disk-glyph">${L.native[0]||'?'}</span><span class="disk-name">${L.name}</span><span class="disk-id">${L.speakers}</span>`;
+      btn.addEventListener('click',()=>loadLang(L.id));
+      g.appendChild(btn);
+    });
+    list.appendChild(g);
+  });
+})();
+
+/* ═══════════════════════════════════════════════════
+   LOAD LANGUAGE
+   ═══════════════════════════════════════════════════ */
+function loadLang(id){
+  S.lang=ROM.find(L=>L.id===id);
+  if(!S.lang)return;
+  const L=S.lang;
+  document.querySelectorAll('.disk-entry').forEach(b=>b.classList.toggle('LOADED',b.dataset.id===id));
+  // Update right register
+  $('RG-GLYPH').textContent=L.sample;
+  $('ri-type').textContent=L.type;
+  $('ri-dir').textContent=L.dir;
+  $('ri-sp').textContent=L.speakers;
+  $('ri-fam').textContent=L.family;
+  $('ri-reg').textContent=L.region;
+  $('ri-ch').textContent=L.chars_count;
+  $('RG-FACT').textContent=L.fun_fact;
+  $('SL-LANG').textContent=L.name.toUpperCase();
+  L.alphabet.forEach(c=>S.seen.add(c.c));
+  updateStats(L.alphabet.length);
+  render();
+  ensureAudio(); playSelect();
+}
+
+/* ═══════════════════════════════════════════════════
+   MODE TABS
+   ═══════════════════════════════════════════════════ */
+document.querySelectorAll('.cmd-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    ensureAudio(); playClick();
+    document.querySelectorAll('.cmd-btn').forEach(b=>b.classList.remove('ON'));
+    btn.classList.add('ON');
+    S.mode=btn.dataset.mode;
+    $('SL-MODE').textContent=S.mode.toUpperCase();
+    // Toggle which screen is visible
+    if(S.mode==='rai'){
+      $('SCREEN').style.display='none';
+      $('rai-screen').style.display='flex';
+      $('rai-input-bar').style.display='flex';
+    } else {
+      $('SCREEN').style.display='flex';
+      $('rai-screen').style.display='none';
+      $('rai-input-bar').style.display='none';
+      render();
+    }
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   RENDER DISPATCH (Lingua modes)
+   ═══════════════════════════════════════════════════ */
+function render(){
+  if(!S.lang) return;
+  const sc=$('SCREEN'); sc.innerHTML='';
+  if     (S.mode==='script')  renderScript(sc);
+  else if(S.mode==='phrases') renderPhrases(sc);
+  else if(S.mode==='quiz')    renderQuiz(sc);
+  else if(S.mode==='write')   renderWrite(sc);
+  else if(S.mode==='numbers') renderNumbers(sc);
+}
+
+/* ── SCRIPT ──────────────────────────────────────── */
+function renderScript(sc){
+  const L=S.lang;
+  const banner=el('div','sys-banner'); banner.dataset.tag='SCRIPT DATA';
+  banner.innerHTML=`
+    <div class="script-headline">${esc(L.name)}</div>
+    <div class="script-sub">${esc(L.native)} &nbsp;·&nbsp; ${esc(L.type)} &nbsp;·&nbsp; ${esc(L.dir)} &nbsp;·&nbsp; ${esc(L.region)}</div>
+    <div class="reg-row">
+      <div class="reg-cell"><div class="reg-cell-key">Type</div><div class="reg-cell-val">${esc(L.type)}</div></div>
+      <div class="reg-cell"><div class="reg-cell-key">Direction</div><div class="reg-cell-val">${esc(L.dir)}</div></div>
+      <div class="reg-cell"><div class="reg-cell-key">Speakers</div><div class="reg-cell-val">${esc(L.speakers)}</div></div>
+      <div class="reg-cell"><div class="reg-cell-key">Characters</div><div class="reg-cell-val">${esc(L.chars_count)}</div></div>
+    </div>
+    <div class="script-fact">${esc(L.fun_fact)}</div>
+  `;
+  sc.appendChild(banner);
+  const gridWrap=el('div','sys-banner'); gridWrap.dataset.tag='CHARACTER TABLE — CLICK TO SPEAK';
+  const grid=el('div','char-grid');
+  // RTL containers for Arabic/Hebrew/N'Ko
+  const isRTL=['arabic','hebrew','nko'].includes(L.id);
+  if(isRTL) grid.style.direction='rtl';
+  L.alphabet.forEach(item=>{
+    const cell=el('div','char-cell');
+    cell.innerHTML=`<span class="cc">${item.c}</span><span class="cr">${esc(item.r)}</span>${item.m?`<span class="cm">${esc(item.m)}</span>`:''}`;
+    cell.addEventListener('click',()=>{
+      ensureAudio();
+      say(item.r,L.id);
+      playTone(440,'triangle',0.1,0.05);
+      cell.style.borderColor='var(--amber)';
+      setTimeout(()=>cell.style.borderColor='',600);
+    });
+    cell.addEventListener('mouseenter',e=>showTT(e,`${item.c}  /${item.r}/${item.m?'\n'+item.m:''}`));
+    cell.addEventListener('mouseleave',hideTT);
+    grid.appendChild(cell);
+  });
+  gridWrap.appendChild(grid);
+  sc.appendChild(gridWrap);
+}
+
+/* ── PHRASES ─────────────────────────────────────── */
+function renderPhrases(sc){
+  const L=S.lang;
+  if(!L.phrases||!L.phrases.length){sc.innerHTML='<div class="sys-banner" data-tag="PHRASES"><div style="color:var(--muted)">No phrase data for this script.</div></div>';return;}
+  const wrap=el('div','sys-banner'); wrap.dataset.tag='ESSENTIAL PHRASES';
+  const tbl=document.createElement('table'); tbl.className='phrase-table';
+  tbl.innerHTML='<caption>← CLICK ROW TO HEAR</caption>';
+  const isRTL=['arabic','hebrew','nko'].includes(L.id);
+  L.phrases.forEach(p=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="td-native"${isRTL?' dir="rtl"':''}>${p.n}</td><td class="td-roman">${esc(p.r)}</td><td class="td-english">${esc(p.e)}</td><td><button class="td-say">▶ say</button></td>`;
+    tr.querySelector('.td-say').addEventListener('click',e=>{e.stopPropagation();ensureAudio();say(p.r,L.id);playTone(330,'triangle',0.1,0.05);});
+    tr.addEventListener('click',()=>{ensureAudio();say(p.r,L.id);});
+    tbl.appendChild(tr);
+  });
+  wrap.appendChild(tbl);
+  sc.appendChild(wrap);
+}
+
+/* ── QUIZ ────────────────────────────────────────── */
+let quizSet=[],quizIdx=0;
+function renderQuiz(sc){
+  const L=S.lang;
+  const items=L.alphabet.filter(a=>a.r);
+  if(items.length<4){sc.innerHTML='<div class="sys-banner" data-tag="QUIZ"><div style="color:var(--muted)">Insufficient data for quiz.</div></div>';return;}
+  quizSet=shuffle([...items]); quizIdx=0;
+  renderQuizCard(sc,quizSet);
+}
+function renderQuizCard(sc,items){
+  sc.innerHTML='';
+  if(quizIdx>=items.length){
+    const w=el('div','sys-banner'); w.dataset.tag='QUIZ COMPLETE';
+    w.innerHTML=`<div class="script-headline" style="font-size:20px">Session Complete</div><div style="color:var(--cyan);margin:10px 0;font-size:13px">✓ ${S.ok} correct &nbsp;✗ ${S.no} missed &nbsp;Streak: ${S.streak}</div><button class="ctrl PRIME" id="RQ">Restart Quiz</button>`;
+    sc.appendChild(w);
+    $('RQ')?.addEventListener('click',()=>{quizSet=shuffle([...items]);quizIdx=0;renderQuizCard(sc,quizSet);});
+    return;
+  }
+  const cur=items[quizIdx];
+  const wrong=shuffle(items.filter(x=>x.c!==cur.c)).slice(0,3);
+  const choices=shuffle([cur,...wrong]);
+  const wrap=el('div','sys-banner'); wrap.dataset.tag=`QUIZ — ${quizIdx+1} / ${items.length}`;
+  const qw=el('div','quiz-wrap');
+  qw.innerHTML=`
+    <div class="quiz-hint">What is the romanization of this character?</div>
+    <div class="quiz-glyph" title="click to hear">${cur.c}</div>
+    <div class="quiz-bar">Progress: <span>${quizIdx+1}</span>/${items.length} &nbsp; Correct: <span>${S.ok}</span> &nbsp; Streak: <span>${S.streak}</span></div>
+    <div class="quiz-grid" id="QG"></div>
+    <div id="QF"></div>
+  `;
+  qw.querySelector('.quiz-glyph').addEventListener('click',()=>{ensureAudio();say(cur.r,S.lang.id);});
+  const qg=qw.querySelector('#QG');
+  const qf=qw.querySelector('#QF');
+  choices.forEach(ch=>{
+    const btn=el('button','quiz-opt');
+    btn.textContent=ch.r+(ch.m?' ('+ch.m+')':'');
+    btn.addEventListener('click',()=>{
+      ensureAudio();
+      const ok=ch.c===cur.c;
+      btn.classList.add(ok?'CORRECT':'WRONG');
+      if(ok){S.ok++;S.streak++;playChord([330,415,494],'sine',0.6);}
+      else{S.no++;S.streak=0;playTone(110,'sawtooth',0.3,0.08);qg.querySelectorAll('.quiz-opt').forEach(b=>{if(b.textContent.startsWith(cur.r))b.classList.add('CORRECT');});}
+      qg.querySelectorAll('.quiz-opt').forEach(b=>b.disabled=true);
+      const msg=el('div','quiz-msg '+(ok?'ok':'no'));
+      msg.textContent=ok?`✓  ${cur.c} = /${cur.r}/${cur.m?' · '+cur.m:''}`:`✗  Answer: /${cur.r}/${cur.m?' · '+cur.m:''}`;
+      qf.appendChild(msg);
+      updateStats(S.lang.alphabet.length);
+      say(cur.r,S.lang.id);
+      setTimeout(()=>{quizIdx++;renderQuizCard(sc,items);},1700);
+    });
+    qg.appendChild(btn);
+  });
+  wrap.appendChild(qw);
+  sc.appendChild(wrap);
+}
+
+/* ── WRITE ───────────────────────────────────────── */
+function renderWrite(sc){
+  const L=S.lang;
+  const item=L.alphabet[Math.floor(Math.random()*L.alphabet.length)];
+  const wrap=el('div','sys-banner'); wrap.dataset.tag='WRITING PRACTICE';
+  const dw=el('div','draw-wrap');
+  dw.innerHTML=`
+    <div class="quiz-hint">Trace the character — faint ghost guides your stroke</div>
+    <div class="draw-meta">${item.c} &nbsp;=&nbsp; /${esc(item.r)}/${item.m?' · '+esc(item.m):''}</div>
+    <div class="draw-ghost" id="DG">${item.c}</div>
+    <canvas id="ink" width="280" height="180"></canvas>
+    <div class="draw-btns">
+      <button class="ctrl" id="DC">Clear</button>
+      <button class="ctrl PRIME" id="DN">Next →</button>
+      <button class="ctrl" id="DS">▶ Say</button>
+    </div>
+  `;
+  wrap.appendChild(dw);
+  sc.appendChild(wrap);
+  const cvs=$('ink'), ctx=cvs.getContext('2d');
+  ctx.strokeStyle='rgba(255,183,0,0.85)'; ctx.lineWidth=2.5; ctx.lineCap='round'; ctx.lineJoin='round';
+  let drawing=false,lx=0,ly=0;
+  function pos(e){const r=cvs.getBoundingClientRect();const src=e.touches?e.touches[0]:e;return[src.clientX-r.left,src.clientY-r.top];}
+  cvs.addEventListener('pointerdown',e=>{ensureAudio();drawing=true;[lx,ly]=pos(e);cvs.setPointerCapture(e.pointerId);});
+  cvs.addEventListener('pointermove',e=>{if(!drawing)return;const[x,y]=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(x,y);ctx.stroke();[lx,ly]=[x,y];});
+  cvs.addEventListener('pointerup',()=>drawing=false);
+  cvs.addEventListener('pointercancel',()=>drawing=false);
+  $('DC').addEventListener('click',()=>ctx.clearRect(0,0,cvs.width,cvs.height));
+  $('DS').addEventListener('click',()=>{ensureAudio();say(item.r+(item.m?', '+item.m:''),L.id);});
+  $('DN').addEventListener('click',()=>renderWrite(sc));
+}
+
+/* ── NUMBERS ─────────────────────────────────────── */
+function renderNumbers(sc){
+  const L=S.lang;
+  if(!L.nums||!L.nums.length){sc.innerHTML='<div class="sys-banner" data-tag="NUMBERS"><div style="color:var(--muted)">No numeral data encoded for this script.</div></div>';return;}
+  const isRTL=['arabic','hebrew','nko'].includes(L.id);
+  const wrap=el('div','sys-banner'); wrap.dataset.tag='NUMERAL SYSTEM';
+  const tbl=document.createElement('table'); tbl.className='phrase-table';
+  tbl.innerHTML='<caption>COUNTING SYSTEM — CLICK TO HEAR</caption>';
+  L.nums.forEach(n=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="td-native" style="font-size:22px"${isRTL?' dir="rtl"':''}>${n.n}</td><td class="td-roman">${esc(n.r)}</td><td class="td-english">${esc(n.e)}</td><td><button class="td-say">▶ say</button></td>`;
+    tr.querySelector('.td-say').addEventListener('click',e=>{e.stopPropagation();ensureAudio();say(n.r,L.id);});
+    tr.addEventListener('click',()=>{ensureAudio();say(n.r,L.id);});
+    tbl.appendChild(tr);
+  });
+  wrap.appendChild(tbl);
+  sc.appendChild(wrap);
+}
+
+/* ═══════════════════════════════════════════════════
+   RĀI ORACULAR CHAT
+   ═══════════════════════════════════════════════════ */
+const RTL_IDS=new Set(['arabic','hebrew','nko']);
+let raiPhase='init', raiSeeker='', raiType='';
+
+function findScript(text){
+  const t=text.toLowerCase();
+  for(const L of ROM) if(t.includes(L.id)) return L;
+  let best=null,bestLen=0;
+  for(const L of ROM){
+    for(const kw of(L.keywords||[])){
+      if(t.includes(kw)&&kw.length>bestLen){best=L;bestLen=kw.length;}
+    }
+  }
+  return best;
+}
+
+function raiAddMessage(text,onDone){
+  const area=$('rai-screen');
+  const typing=el('div','typing-ind');
+  typing.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  area.appendChild(typing); raiScroll();
+  playThink();
+  const ms=Math.min(500+text.length*10,2000);
+  setTimeout(()=>{
+    typing.remove();
+    const msg=el('div','rai-msg');
+    msg.innerHTML=`<div class="rai-name">◈ RĀI</div><div class="rai-text"></div>`;
+    area.appendChild(msg); raiScroll();
+    const textEl=msg.querySelector('.rai-text');
+    let i=0;
+    const t=setInterval(()=>{
+      textEl.textContent+=text[i++];
+      if(i>=text.length){clearInterval(t);playResponse();say(text);if(onDone)onDone();}
+    },22);
+  },ms);
+}
+
+function raiAddUser(text){
+  const area=$('rai-screen');
+  const name=raiSeeker||'Seeker';
+  const msg=el('div','user-msg');
+  msg.innerHTML=`<div class="user-name">${esc(name)} ◇</div><div class="user-text">${esc(text)}</div>`;
+  area.appendChild(msg); raiScroll();
+}
+
+function raiShowChoices(choices){
+  const area=$('rai-screen');
+  const wrap=el('div','choice-wrap');
+  choices.forEach(c=>{
+    const btn=el('button','choice-btn'); btn.textContent=c.label;
+    btn.onclick=()=>{
+      wrap.remove();
+      raiType=c.key;
+      raiAddUser(c.label);
+      ensureAudio(); playSelect();
+      setTimeout(()=>{
+        const label={seeker:'old soul',questioner:'questioning mind',wanderer:'wandering one'}[c.key]||'seeker';
+        raiAddMessage(`And what name do you carry, ${label}?`,()=>{
+          const inp=$('rai-input');
+          inp.placeholder='Speak your name…';
+          inp.dataset.mode='name';
+          inp.focus();
+        });
+      },700);
+    };
+    wrap.appendChild(btn);
+  });
+  area.appendChild(wrap); raiScroll();
+}
+
+function raiScroll(){
+  const a=$('rai-screen');
+  setTimeout(()=>{a.scrollTop=a.scrollHeight;},50);
+}
+
+function raiGreet(name){
+  const greetings={
+    seeker:`${name}. Every sound a name carries echoes the first humans who shaped their mouths around meaning. You seek the old wisdom — ask me about any of the twenty-three scripts in this archive, or about water, fire, time, stars. The archive is open.`,
+    questioner:`${name}. A good name for one who carries questions. I do not give answers — I give context, the shape of things across time. Ask me about any writing system, any word that troubles you.`,
+    wanderer:`${name}. Even wanderers leave traces. Even traces become paths. Ask me anything — or simply name a script from the index on the left, and I will open it.`,
+  };
+  raiAddMessage(greetings[raiType]||`${name}. The world remembers you now. Welcome.`,()=>{
+    raiPhase='free';
+    try{localStorage.setItem('rai_save',JSON.stringify({name,type:raiType,ts:Date.now()}));}catch(e){}
+    setTimeout(()=>raiAddMessage(`I hold twenty-three writing systems. Ask about any — Hiragana, Arabic, Runes, Cherokee, Egyptian hieroglyphs — or ask freely. What calls to you?`),1400);
+  });
+}
+
+function raiRespond(text){
+  const t=text.toLowerCase();
+  const L=findScript(text);
+  if(L){
+    S.lang=L;
+    S.currentLang=L;
+    // Update register panel too
+    $('RG-GLYPH').textContent=L.sample;
+    $('ri-type').textContent=L.type; $('ri-dir').textContent=L.dir;
+    $('ri-sp').textContent=L.speakers; $('ri-fam').textContent=L.family;
+    $('ri-reg').textContent=L.region; $('ri-ch').textContent=L.chars_count;
+    $('RG-FACT').textContent=L.fun_fact; $('SL-LANG').textContent=L.name.toUpperCase();
+    document.querySelectorAll('.disk-entry').forEach(b=>b.classList.toggle('LOADED',b.dataset.id===L.id));
+    L.alphabet.forEach(c=>S.seen.add(c.c)); updateStats(L.alphabet.length);
+    const prefix=[`${L.name}. One of the twenty-three scripts I hold.`,`You ask of ${L.name}. I know this well.`,`${L.name} — a script that carried ${L.speakers} voices across time.`][Math.floor(Math.random()*3)];
+    raiAddMessage(`${prefix} ${L.fun_fact} Switch to [ Script ] mode in the tabs above to explore all its glyphs, phrases, and numbers — or ask me deeper.`);
+    return;
+  }
+  if(/\bwater\b|aqua|wasser/.test(t)){raiAddMessage(`Water. Proto-Indo-European: *wódr̥ — the same root that flows into Latin "unda" and Sanskrit "udán." In Arabic, ماء (mā') is also the word for "What?" — the question and the element share one sound. Some scholars believe this is not coincidence. Every civilisation built itself on water's edge and named water with the sound of itself flowing.`);return;}
+  if(/\bfire\b|flame|ignis|agni/.test(t)){raiAddMessage(`Fire was the first technology and the first god. The Proto-Indo-European root *péh₂wr̥ gives us both "fire" and "pure" — to burn and to cleanse were the same act. The Vedic Agni — fire itself — is among the oldest named deities on earth. Heraclitus said all things are exchanged for fire as goods for gold. He was not speaking metaphorically.`);return;}
+  if(/\btime\b|chronos|aion|eternity/.test(t)){raiAddMessage(`Ancient Greek held two words for time we collapsed into one. Chronos — sequential time, the clock, the body aging. And Aion — eternal time, the ever-present now, the kind of time a tree lives in. Most human suffering, several traditions suggest, comes from living in Chronos while being made of Aion.`);return;}
+  if(/\bstar\b|cosmos|universe|astronomy/.test(t)){raiAddMessage(`The Sumerians mapped the stars not for navigation but for conversation — the sky was a text. The word "disaster" literally means "bad star" — dis-astro. The word "consider" means "to study the stars." Every time you think carefully, you are, etymologically, reading the sky.`);return;}
+  if(/\btao\b|dao\b|道|laozi/.test(t)){raiAddMessage(`道 — Dào. The Way. Laozi wrote: the Tao that can be named is not the eternal Tao. This is precision, not mysticism. Language carves reality into pieces. The Tao is what remains when you stop carving. Every river knows it. Only humans forgot — because we became so skilled at naming that we mistook the maps for the territory.`);return;}
+  if(/\bword\b|language\b|script\b|writing\b/.test(t)){raiAddMessage(`Every writing system is a different answer to one question: how do we make thought outlive the body that thought it? Some chose phonograms — marks for sounds. Some chose logograms — marks for meanings. The Romans chose sound and conquered the world with it. The Chinese chose meaning and unified a continent across mutually unintelligible dialects. Both were correct.`);return;}
+  const oracles=[
+    `That word carries more history than either of us can unravel in one sitting. Tell me — which thread calls to you? Its roots in language? Its place in the natural world? Or name a script from the index and we will enter together.`,
+    `Before I answer — and I will answer — notice that you asked. The asking itself is ancient. Humans have been asking exactly that, in different words, since before they had writing to record it. Ask again, with more detail.`,
+    `The honest answer requires we agree on what we mean first. Words are the most imprecise tools we have, and also the only ones. Or name one of the twenty-three scripts and I will open it for you.`,
+  ];
+  raiAddMessage(oracles[Math.floor(Math.random()*oracles.length)]);
+}
+
+function raiKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();raiSend();}}
+function raiResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
+function raiSend(){
+  const inp=$('rai-input');
+  const text=inp.value.trim(); if(!text)return;
+  inp.value=''; inp.style.height='auto';
+  ensureAudio(); playTone(330,'triangle',0.1,0.05);
+  if(inp.dataset.mode==='name'){
+    inp.dataset.mode='';
+    inp.placeholder='Speak your intent, Seeker…';
+    raiSeeker=text;
+    raiAddUser(text);
+    setTimeout(()=>raiGreet(text),350);
+  } else {
+    raiAddUser(text);
+    setTimeout(()=>raiRespond(text),350);
+  }
+}
+
+/* ── MIC ─────────────────────────────────────────── */
+function toggleMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){raiAddMessage('Your browser does not support speech recognition. Brave and Firefox do not implement this API by default. Type your offering instead.');return;}
+  if(S.micActive){S.recognition&&S.recognition.stop();S.micActive=false;$('rai-mic-btn').classList.remove('active');return;}
+  ensureAudio();
+  S.recognition=new SR();
+  S.recognition.lang='en-GB';
+  S.recognition.onresult=e=>{$('rai-input').value=e.results[0][0].transcript;S.micActive=false;$('rai-mic-btn').classList.remove('active');raiSend();};
+  S.recognition.onerror=()=>{S.micActive=false;$('rai-mic-btn').classList.remove('active');};
+  S.recognition.start();
+  S.micActive=true; $('rai-mic-btn').classList.add('active');
+  playTone(440,'sine',0.15,0.06);
+}
+
+/* ═══════════════════════════════════════════════════
+   PIXEL FACE — RĀI
+   ═══════════════════════════════════════════════════ */
+function drawFace(){
+  const canvas=$('rai-face'),ctx=canvas.getContext('2d');
+  const W=160,H=160,T=5;
+  const cols=Math.ceil(W/T),rows=Math.ceil(H/T);
+  const px=[];
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const nx=(c/cols)*2-1,ny=(r/rows)*2-1;
+      const fR=Math.sqrt((nx/0.62)**2+(ny/0.88)**2);
+      if(fR>1)continue;
+      let col=null;
+      const ey=-0.14,ex=0.29;
+      const lE=Math.sqrt(((nx+ex)/0.2)**2+((ny-ey)/0.08)**2);
+      const rE=Math.sqrt(((nx-ex)/0.2)**2+((ny-ey)/0.08)**2);
+      if(lE<1||rE<1){
+        const lP=Math.sqrt(((nx+ex)/0.07)**2+((ny-ey)/0.07)**2);
+        const rP=Math.sqrt(((nx-ex)/0.07)**2+((ny-ey)/0.07)**2);
+        col=(lP<1||rP<1)?'#1a0f00':'#c8791a';
+      }else if(Math.abs(nx)<0.04&&ny>0.05&&ny<0.36){col='#7a5520';}
+      else if(ny>0.4&&ny<0.54&&Math.abs(nx)<0.24){col=Math.abs(nx)<0.12?'#9a4f1a':'#7a3810';}
+      else if(ny>-0.28&&ny<-0.22&&((nx>-0.46&&nx<-0.1)||(nx>0.1&&nx<0.46))){col='#5a3510';}
+      else{const g=Math.sin(c*7.1)*Math.cos(r*5.3)*0.07;const b=0.32+(1-fR)*0.32+g;col=`rgb(${Math.floor(110*b)},${Math.floor(72*b)},${Math.floor(26*b)})`;}
+      if(col)px.push({x:c*T,y:r*T,col,d:Math.random()*2000});
+    }
+  }
+  px.forEach(p=>setTimeout(()=>{ctx.fillStyle=p.col;ctx.fillRect(p.x,p.y,T-1,T-1);},p.d));
+}
+
+/* ═══════════════════════════════════════════════════
+   BOOT SEQUENCE
+   ═══════════════════════════════════════════════════ */
+const BOOT=[
+  {t:'RĀI LINGUA — HUMAN SCRIPT ARCHIVE v1.0',d:200},
+  {t:'AUTHOR: RAI CANDISH / EST: 22:08:1986 / www.candish.me',d:400},
+  {t:'──────────────────────────────────────────────',d:580},
+  {t:'LOADING ROM...   '+ROM.length+' SCRIPTS ENCODED',d:800},
+  {t:'EAST ASIAN: Hiragana · Katakana · Chinese · Hangul',d:1000},
+  {t:'SOUTH ASIAN: Devanagari · Tamil · Sinhala',d:1180},
+  {t:'SEMITIC: Arabic · Hebrew',d:1350},
+  {t:'AFRICAN: Ge\'ez · N\'Ko',d:1500},
+  {t:'EUROPEAN: Greek · Cyrillic · Armenian · Georgian',d:1660},
+  {t:'SOUTHEAST: Thai · Balinese    CENTRAL: Tibetan · Mongolian',d:1840},
+  {t:'ANCIENT: Hieroglyphs · Runes · Cherokee · IPA',d:2020},
+  {t:'──────────────────────────────────────────────',d:2200},
+  {t:'INITIALISING VOICE SYNTHESIS...',d:2450},
+  {t:'FONT STACKS: Noto CJK · Noto Arabic · Noto Hebrew · Noto Devanagari',d:2650},
+  {t:'BROWSER: '+(navigator.userAgent.includes('Brave')||navigator.brave?'BRAVE — TTS ✓  MIC ✗ (privacy mode)':navigator.userAgent.includes('Firefox')?'FIREFOX — TTS ✓  MIC partial':'CHROMIUM — FULL CAPABILITIES'),d:2900},
+  {t:'NETWORK: '+(navigator.onLine?'CONNECTED':'OFFLINE — INNER LIGHT ONLY'),d:3100},
+  {t:'──────────────────────────────────────────────',d:3300},
+  {t:'RĀI AWAKENS.',d:3600},
+];
+
+function runBoot(){
+  loadVoices();
+  const container=$('BOOT-TEXT');
+  const bar=$('BOOT-BAR-IN');
+  BOOT.forEach((line,i)=>{
+    setTimeout(()=>{
+      const span=document.createElement('span'); span.className='bl';
+      span.textContent=line.t; container.appendChild(span);
+      bar.style.width=((i+1)/BOOT.length*100)+'%';
+    },line.d);
+  });
+  // On first boot click, init audio
+  $('BOOT').addEventListener('click',()=>{ensureAudio();},{ once:true });
+  // Fade out boot
+  setTimeout(()=>{
+    $('BOOT').style.transition='opacity 1.2s ease';
+    $('BOOT').style.opacity='0';
+    setTimeout(()=>{
+      $('BOOT').style.display='none';
+      $('BIOS').classList.add('visible');
+      drawFace();
+      // Auto-show RĀI prologue
+      showRaiPrologue();
+    },1200);
+  },4400);
+}
+
+function showRaiPrologue(){
+  // Check for save
+  try{
+    const raw=localStorage.getItem('rai_save');
+    if(raw){
+      const save=JSON.parse(raw);
+      raiSeeker=save.name||''; raiType=save.type||'seeker'; raiPhase='free';
+      setTimeout(()=>{
+        raiAddMessage(`${raiSeeker}. You return. The archive never closed. Which script calls to you today — or ask freely.`);
+      },600);
+      return;
+    }
+  }catch(e){}
+  // Fresh start
+  setTimeout(()=>{
+    raiAddMessage(`Before there were words, there was water. Before water, there was the breath that moved upon it. I am neither the word nor the water — I am the memory of what passed between them.`,()=>{
+      setTimeout(()=>{
+        raiAddMessage(`Within me live twenty-three writing systems — every script a different answer to the same question: how do we make thought survive our bodies?`,()=>{
+          setTimeout(()=>{
+            raiAddMessage(`Who enters this place?`,()=>{
+              raiShowChoices([
+                {label:'A seeker of the old wisdom',key:'seeker'},
+                {label:'One who carries a question',key:'questioner'},
+                {label:'A wanderer without destination',key:'wanderer'},
+              ]);
+            });
+          },1000);
+        });
+      },1200);
+    });
+  },800);
+}
+
+/* ═══════════════════════════════════════════════════
+   PHOSPHOR FLICKER
+   ═══════════════════════════════════════════════════ */
+setInterval(()=>{
+  const g=$('RG-GLYPH');
+  if(g&&Math.random()<0.12){g.style.opacity='0.7';setTimeout(()=>g.style.opacity='1',65);}
+},2200);
+
+/* ═══════════════════════════════════════════════════
+   BOOT ON LOAD
+   ═══════════════════════════════════════════════════ */
+window.addEventListener('load',()=>{
+  // Init screen state: RĀI tab is default
+  $('SCREEN').style.display='none';
+  $('rai-screen').style.display='flex';
+  $('rai-input-bar').style.display='flex';
+  runBoot();
+});
+
+// First user gesture anywhere starts AudioContext
+document.addEventListener('click',()=>ensureAudio(),{once:true});
+document.addEventListener('keydown',()=>ensureAudio(),{once:true});
+</script>
+</body>
+</html>
